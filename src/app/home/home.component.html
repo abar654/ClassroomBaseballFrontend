@@ -1,0 +1,10 @@
+<img src="https://cdn.shopify.com/s/files/1/0065/4917/6438/products/a-baseball-fan-boy-and-inside-a-high-school-classroom-background_1200x1200.jpg?v=1541164779"
+    alt="baseball_boy"
+    class="img-responsive center-block">
+<h1 class="text-center">Classroom Baseball</h1>
+<button class="btn btn-primary center-block" type="button" (click)="onLogin()">LOGIN</button>
+<button class="btn btn-primary center-block" type="button" (click)="onRegister()">REGISTER</button>
+<app-modal (close)="onCloseModal()" *ngIf="modalContents">
+    <p *ngIf="modalContents === 'login'">My login contents!</p>
+    <p *ngIf="modalContents === 'register'">My register contents!</p>
+</app-modal>
