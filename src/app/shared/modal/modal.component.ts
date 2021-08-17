@@ -1,5 +1,9 @@
 import { Component, EventEmitter, Output } from "@angular/core";
 
+/**
+ * A pop up element which displays contents infront of and deactivates all other page content.
+ */
+
 @Component({
     selector: 'app-modal',
     templateUrl: './modal.component.html',

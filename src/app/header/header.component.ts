@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+/**
+ * The header which appears along the top of the screen on all pages of the app.
+ */
+
 @Component({
     selector: 'app-header',
     templateUrl: './header.component.html',

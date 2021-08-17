@@ -3,6 +3,11 @@ import { ActivatedRoute, Router, UrlSegment } from '@angular/router';
 
 type ModalType = "login" | "register" | null;
 
+/**
+ * A routable component which shows the home page.
+ * This component also houses a modal for login or registration.
+ */
+
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
