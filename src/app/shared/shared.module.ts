@@ -1,5 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
+import { LoadingSpinnerComponent } from "./loading-spinner/loading-spinner.component";
 import { ModalComponent } from "./modal/modal.component";
 
 /**
@@ -8,13 +9,15 @@ import { ModalComponent } from "./modal/modal.component";
 
 @NgModule({
     declarations: [
-        ModalComponent
+        ModalComponent,
+        LoadingSpinnerComponent
     ],
     imports: [
         CommonModule
     ],
     exports: [
         ModalComponent,
+        LoadingSpinnerComponent,
         CommonModule
     ]
 })
