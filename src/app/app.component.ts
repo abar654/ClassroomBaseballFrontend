@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AuthenticationService } from './authentication/authentication.service';
 
 /**
  * The app's root component which contains the header and a router outlet.
@@ -9,5 +10,12 @@ import { Component } from '@angular/core';
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+
+    constructor(private authenticationService: AuthenticationService) {}
+
+    ngOnInit(): void {
+        this.authenticationService.tryExistingLogin();
+    }
+
 }

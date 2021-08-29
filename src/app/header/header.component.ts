@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { AuthenticationService } from '../authentication/authentication.service';
 
 /**
  * The header which appears along the top of the screen on all pages of the app.
@@ -10,14 +12,25 @@ import { Router } from '@angular/router';
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
 
     isCollapsed: boolean = false;
     isAuthenticated: boolean = false;
+    authDataSub: Subscription;
 
-    constructor(private router: Router) { }
+    constructor(
+        private router: Router,
+        private authenticationService: AuthenticationService
+    ) { }
 
     ngOnInit(): void {
+        this.authDataSub = this.authenticationService.authenticationState.subscribe((authData) => {
+            this.isAuthenticated = authData != null;
+        })
+    }
+
+    ngOnDestroy(): void {
+        this.authDataSub.unsubscribe();
     }
 
     onLogin(): void {
@@ -29,7 +42,8 @@ export class HeaderComponent implements OnInit {
     }
 
     onLogout(): void {
-        // Dummy code
+        this.authenticationService.logout();
+        this.router.navigate(['']);
     }
 
 }
