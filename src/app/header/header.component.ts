@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { AuthenticationService } from '../authentication/authentication.service';
 
 /**
@@ -43,7 +44,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     onLogout(): void {
         this.authenticationService.logout();
-        this.router.navigate(['']);
+        this.router.navigate([environment.logoutRedirect]);
     }
 
 }

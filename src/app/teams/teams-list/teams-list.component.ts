@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 
 /**
- * A routable component which shows a grid which contains a summary card for each team.
+ * A routable component which shows a grid containing a summary card for each team.
  */
 
 @Component({

@@ -2,7 +2,8 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable, throwError } from "rxjs";
 import { catchError, tap } from 'rxjs/operators'
-import { AuthenticationApi } from "./authentication-api.service";
+
+import { AuthenticationApi } from "./apis/authentication.api";
 import { AuthenticationData } from "./models/authentication-data.model";
 import { AuthenticationResponse } from "./models/authentication-response.model";
 
@@ -17,7 +18,8 @@ export class AuthenticationService {
     private autoLogoutTimeout: ReturnType<typeof setTimeout> = null;
 
     // If the user is authenticated then this will hold valid AuthenticationData,
-    // otherwise it will hold null. When authentication expires it is automatically set to null.
+    // otherwise it will hold null.
+    // When authentication expires it is automatically set to null.
     public authenticationState: BehaviorSubject<AuthenticationData> = new BehaviorSubject<AuthenticationData>(null);
 
     constructor(
@@ -43,6 +45,11 @@ export class AuthenticationService {
             clearTimeout(this.autoLogoutTimeout);
             this.autoLogoutTimeout = null;      
         }
+    }
+
+    // TODO: Add basic registration to the app
+    public register() {
+
     }
 
     public tryExistingLogin() {
@@ -74,9 +81,14 @@ export class AuthenticationService {
 
     private updateAuthentication(authResponse: AuthenticationResponse) {
         let authData: AuthenticationData = new AuthenticationData(authResponse.email, authResponse.jwt, authResponse.expirationDate);
+        
+        // Update the authentication state
         this.authenticationState.next(authData);
 
+        // Save to local storage
         localStorage.setItem(this.AUTH_DATA_KEY, JSON.stringify(authData));
+
+        // Set timer to logout when token expires
         this.setAutoLogout(authResponse.expirationDate);
     }
 

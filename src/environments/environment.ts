@@ -2,9 +2,13 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+// To run with the dev backend use the following command:
+// ng serve --proxy-config proxy.conf.json
 export const environment = {
   production: false,
-  apiEndpoint: 'http://localhost:4200'
+  apiEndpoint: 'http://localhost:4200',
+  authenticatedRedirect: '/teams',
+  logoutRedirect: ''
 };
 
 /*

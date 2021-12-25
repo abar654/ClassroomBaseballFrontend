@@ -35,11 +35,11 @@ export class HomeComponent implements OnInit {
         });
     }
 
-    onLogin(): void {
+    onLoginClick(): void {
         this.router.navigate(['/login']);
     }
 
-    onRegister(): void {
+    onRegisterClick(): void {
         this.router.navigate(['/register']);
     }
 

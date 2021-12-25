@@ -1,36 +1,32 @@
-<div class="row">
-    <div class="col-xs-12">
-        <div *ngIf="isLoading" style="text-align: center;">
-            <app-loading-spinner></app-loading-spinner>
-        </div>
-        <form *ngIf="!isLoading" #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input
-                    class="form-control"
-                    ngModel
-                    type="email"
-                    id="email"
-                    name="email"
-                    email
-                    required
-                >
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input
-                    class="form-control"
-                    ngModel
-                    type="password"
-                    id="password"
-                    name="password"
-                    required
-                    minlength="6"
-                >
-            </div>
-            <div>
-                <button class="btn btn-primary" type="submit" [disabled]="!loginForm.valid">Login</button>
-            </div>
-        </form>
-    </div>
+<div *ngIf="isLoading" style="text-align: center;">
+    <app-loading-spinner></app-loading-spinner>
 </div>
+<form *ngIf="!isLoading" #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input
+            class="form-control"
+            ngModel
+            type="email"
+            id="email"
+            name="email"
+            email
+            required
+        >
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input
+            class="form-control"
+            ngModel
+            type="password"
+            id="password"
+            name="password"
+            required
+            minlength="6"
+        >
+    </div>
+    <div>
+        <button type="submit" [disabled]="!loginForm.valid">Login</button>
+    </div>
+</form>

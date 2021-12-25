@@ -1,6 +1,7 @@
 /**
  * Data model for storing and accessing authentication information
  */
+
 export class AuthenticationData {
 
     constructor(

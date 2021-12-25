@@ -1,6 +1,8 @@
 import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from "@angular/router";
 import { Observable } from "rxjs";
+import { environment } from "src/environments/environment";
+
 import { AuthenticationService } from "../authentication.service";
 
 /**
@@ -16,7 +18,7 @@ export class AuthenticationGuard implements CanActivate {
     ) {}
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
-        return this.authenticationService.authenticationState.value ? true : this.router.createUrlTree(['']);
+        return this.authenticationService.authenticationState.value ? true : this.router.createUrlTree([environment.logoutRedirect]);
     }
 
 }

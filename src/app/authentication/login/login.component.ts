@@ -1,6 +1,8 @@
 import { Component } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
+import { environment } from "src/environments/environment";
+
 import { AuthenticationService } from "../authentication.service";
 
 /**
@@ -26,9 +28,10 @@ export class LoginComponent {
             () => {
                 console.log("LoginComponent: login success!");
                 this.isLoading = false;
-                this.router.navigate(['/teams']);
+                this.router.navigate([environment.authenticatedRedirect]);
             },
             (error) => {
+                // TODO: Add proper handling for login errors
                 console.log("LoginComponent: error !", error);
             }
         )
