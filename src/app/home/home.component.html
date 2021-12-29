@@ -7,5 +7,5 @@
 <button type="button" (click)="onRegisterClick()">REGISTER</button>
 <app-modal (close)="onCloseModal()" *ngIf="modalContents">
     <app-login *ngIf="modalContents === 'login'"></app-login>
-    <p *ngIf="modalContents === 'register'">My register contents!</p>
+    <app-registration *ngIf="modalContents === 'signup'"></app-registration>
 </app-modal>

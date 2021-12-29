@@ -1,7 +1,7 @@
 <div *ngIf="isLoading" style="text-align: center;">
     <app-loading-spinner></app-loading-spinner>
 </div>
-<form *ngIf="!isLoading" #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
+<form *ngIf="!isLoading" #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
     <div class="form-group">
         <label for="email">Email</label>
         <input
@@ -25,9 +25,19 @@
             required
             minlength="6"
         >
+        <label for="checkPassword">Re-enter password</label>
+        <input
+            class="form-control"
+            ngModel
+            type="password"
+            id="checkPassword"
+            name="checkPassword"
+            required
+            minlength="6"
+        >
     </div>
     <p *ngIf="errorMessage">{{ errorMessage }}</p>
     <div>
-        <button type="submit" [disabled]="!loginForm.valid">Login</button>
-    </div>  
+        <button type="submit" [disabled]="!registerForm.valid">Register</button>
+    </div>
 </form>

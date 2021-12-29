@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable, throwError } from "rxjs";
 import { catchError, tap } from 'rxjs/operators'
 
 import { AuthenticationApi } from "./apis/authentication.api";
+import { RegistrationApi } from "./apis/registration.api";
 import { AuthenticationData } from "./models/authentication-data.model";
 import { AuthenticationResponse } from "./models/authentication-response.model";
 
@@ -23,7 +24,8 @@ export class AuthenticationService {
     public authenticationState: BehaviorSubject<AuthenticationData> = new BehaviorSubject<AuthenticationData>(null);
 
     constructor(
-        private authenticationApi: AuthenticationApi
+        private authenticationApi: AuthenticationApi,
+        private registrationApi: RegistrationApi
     ){}
 
     public login(email: string, password: string): Observable<AuthenticationResponse> {
@@ -47,9 +49,11 @@ export class AuthenticationService {
         }
     }
 
-    // TODO: Add basic registration to the app
-    public register() {
-
+    public register(email: string, password: string): Observable<void> {
+        return this.registrationApi.registerRequest(email, password)
+            .pipe(
+                catchError(this.handleError)
+            );
     }
 
     public tryExistingLogin() {
@@ -94,9 +98,9 @@ export class AuthenticationService {
 
     private handleError(errorResponse: HttpErrorResponse) {
         // Provide more elegant error messages if desired...
+        // By replacing errorResponse with a string
         console.log(errorResponse);
-        let errorMessage = "An unknown error occurred!";
-        return throwError(errorMessage);
+        return throwError(errorResponse.error && errorResponse.error.message || "An unknown error occurred!");
     }
 
 }

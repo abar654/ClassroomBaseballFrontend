@@ -13,7 +13,7 @@ import { SharedModule } from './shared/shared.module';
 const baseRoutes: Routes = [
     { path: '', canActivate: [HomeRedirectGuard], component: HomeComponent },
     { path: 'login', canActivate: [HomeRedirectGuard], component: HomeComponent },
-    { path: 'register', canActivate: [HomeRedirectGuard], component: HomeComponent },
+    { path: 'signup', canActivate: [HomeRedirectGuard], component: HomeComponent },
     { path: 'teams', canActivate: [AuthenticationGuard], loadChildren: () => import('./teams/teams.module').then(m => m.TeamsModule) },
     { path: '**', redirectTo: '' },
 ];

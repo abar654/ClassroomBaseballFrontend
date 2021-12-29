@@ -39,7 +39,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
 
     onRegister(): void {
-        this.router.navigate(['/register']);
+        this.router.navigate(['/signup']);
     }
 
     onLogout(): void {

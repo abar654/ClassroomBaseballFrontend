@@ -16,6 +16,7 @@ import { AuthenticationService } from "../authentication.service";
 export class LoginComponent {
 
     isLoading: boolean = false;
+    errorMessage: string = null;
 
     constructor(
         private authenticationService: AuthenticationService,
@@ -24,6 +25,7 @@ export class LoginComponent {
 
     onSubmit(loginForm: NgForm) {
         this.isLoading = true;
+        this.errorMessage = null;
         this.authenticationService.login(loginForm.value.email, loginForm.value.password).subscribe(
             () => {
                 console.log("LoginComponent: login success!");
@@ -31,8 +33,8 @@ export class LoginComponent {
                 this.router.navigate([environment.authenticatedRedirect]);
             },
             (error) => {
-                // TODO: Add proper handling for login errors
-                console.log("LoginComponent: error !", error);
+                this.isLoading = false;
+                this.errorMessage = error;
             }
         )
     }

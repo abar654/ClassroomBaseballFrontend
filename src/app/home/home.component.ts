@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, UrlSegment } from '@angular/router';
 
-type ModalType = "login" | "register" | null;
+type ModalType = "login" | "signup" | null;
 
 /**
  * A routable component which shows the home page.
- * This component also houses a modal for login or registration.
+ * This component also houses a modal for login or signup.
  */
 
 @Component({
@@ -28,8 +28,8 @@ export class HomeComponent implements OnInit {
             if (urlSegments && urlSegments.length > 0) {
                 if (urlSegments[0].path === "login") {
                     this.modalContents = "login";
-                } else if (urlSegments[0].path === "register") {
-                    this.modalContents = "register";
+                } else if (urlSegments[0].path === "signup") {
+                    this.modalContents = "signup";
                 }
             }
         });
@@ -40,7 +40,7 @@ export class HomeComponent implements OnInit {
     }
 
     onRegisterClick(): void {
-        this.router.navigate(['/register']);
+        this.router.navigate(['/signup']);
     }
 
     onCloseModal(): void {

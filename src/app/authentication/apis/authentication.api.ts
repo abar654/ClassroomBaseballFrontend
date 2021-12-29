@@ -23,7 +23,7 @@ export class AuthenticationApi {
         return this.httpClient.post<AuthenticationResponse>(
             this.authApi, 
             {
-                username: email,
+                email: email,
                 password: password
             }
         );
