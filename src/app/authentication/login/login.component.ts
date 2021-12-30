@@ -36,7 +36,7 @@ export class LoginComponent {
                 this.isLoading = false;
                 this.errorMessage = error;
             }
-        )
+        );
     }
 
 }

@@ -1,1 +1,11 @@
-<p>Teams list!</p>
+<div class="teams-list-container">
+    <app-team-summary 
+        *ngFor="let team of teams" 
+        [teamData]="team" 
+        class="summary-container">
+    </app-team-summary>
+    <div class="summary-container">
+        <p>+</p>
+        <p>Create new team</p>
+    </div>
+</div>

@@ -1,10 +1,12 @@
-import { HttpClientModule } from "@angular/common/http";
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { SharedModule } from "../shared/shared.module";
+import { TeamsApi } from "./apis/teams.api";
 import { TeamDashboardComponent } from "./team-dashboard/team-dashboard.component";
+import { TeamSummaryComponent } from "./team-summary/team-summary.component";
 import { TeamsListComponent } from "./teams-list/teams-list.component";
+import { TeamsService } from "./teams.service";
 
 /**
  * A module for displaying and managing data about teams.
@@ -17,13 +19,17 @@ const teamsRoutes = [
 @NgModule({
     declarations: [
         TeamsListComponent,
-        TeamDashboardComponent
+        TeamDashboardComponent,
+        TeamSummaryComponent
     ],
     imports: [
         SharedModule,
         FormsModule,
-        HttpClientModule,
         RouterModule.forChild(teamsRoutes)
+    ],
+    providers: [
+        TeamsService,
+        TeamsApi
     ],
     exports: [
     ]

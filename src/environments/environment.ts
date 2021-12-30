@@ -2,11 +2,15 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+// NOTE: This is no longer required as we added port 4200 as an allowed origin for cors
+// However if we removed 4200 as an allowed origin then we would have to change the below
+// apiEndpoint port to be 4200 and then add all the routes with a mapping to 8080 in proxy.conf.json.
 // To run with the dev backend use the following command:
 // ng serve --proxy-config proxy.conf.json
+
 export const environment = {
   production: false,
-  apiEndpoint: 'http://localhost:4200',
+  apiEndpoint: 'http://localhost:8080',
   authenticatedRedirect: '/teams',
   logoutRedirect: ''
 };
