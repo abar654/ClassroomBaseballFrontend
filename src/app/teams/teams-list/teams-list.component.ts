@@ -15,7 +15,9 @@ import { TeamsService } from "../teams.service";
 export class TeamsListComponent implements OnInit, OnDestroy {
 
     teams: Team[] = [];
-    teamsSub: Subscription;
+    formEditTeam: Team = null;
+
+    private teamsSub: Subscription;
 
     constructor(
         private teamsService: TeamsService
@@ -30,6 +32,20 @@ export class TeamsListComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.teamsSub && this.teamsSub.unsubscribe();
+    }
+
+    openForm(team?: Team) {
+        if (team) {
+            this.formEditTeam = team;
+        } else {
+            this.teamsService.createTeam().subscribe((team: Team) => {
+                this.formEditTeam = team;
+            });
+        }
+    }
+
+    onCloseModal() {
+        this.formEditTeam = null;
     }
 
 }

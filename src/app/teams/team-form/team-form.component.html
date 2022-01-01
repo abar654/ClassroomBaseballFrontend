@@ -1,0 +1,30 @@
+<div class="team-name-row">
+    <label for="team-name">Team Name</label>
+    <input 
+        type="text"
+        id="team-name" 
+        [(ngModel)]="nameInput">
+    <button 
+        type="button" 
+        [disabled]="nameInput === teamData.name"
+        (click)="saveName()">Save</button>
+</div>
+
+<div class="team-logo-container">
+    <label for="image">Logo</label>
+    <input 
+        type="text" 
+        id="image" 
+        [(ngModel)]="imageInput">
+    <button 
+        type="button" 
+        [disabled]="imageInput === teamData.image"
+        (click)="saveImage()">Save</button>
+</div>
+
+<div *ngFor="let player of teamData.players" class="player-row">
+    <input type="text" id="team-name" [(ngModel)]="player.name" disabled>
+    <button type="button">Edit</button>
+</div>
+
+<button type="button" (click)="addPlayer()">Add new player</button>

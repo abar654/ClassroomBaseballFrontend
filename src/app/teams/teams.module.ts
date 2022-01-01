@@ -4,6 +4,7 @@ import { RouterModule } from "@angular/router";
 import { SharedModule } from "../shared/shared.module";
 import { TeamsApi } from "./apis/teams.api";
 import { TeamDashboardComponent } from "./team-dashboard/team-dashboard.component";
+import { TeamFormComponent } from "./team-form/team-form.component";
 import { TeamSummaryComponent } from "./team-summary/team-summary.component";
 import { TeamsListComponent } from "./teams-list/teams-list.component";
 import { TeamsService } from "./teams.service";
@@ -20,7 +21,8 @@ const teamsRoutes = [
     declarations: [
         TeamsListComponent,
         TeamDashboardComponent,
-        TeamSummaryComponent
+        TeamSummaryComponent,
+        TeamFormComponent
     ],
     imports: [
         SharedModule,

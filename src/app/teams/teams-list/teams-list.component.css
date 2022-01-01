@@ -3,9 +3,3 @@
     flex-direction: row;
     flex-wrap: wrap;
 }
-
-.summary-container {
-    margin: 10px;
-    padding: 50px;
-    border-style: solid;
-}

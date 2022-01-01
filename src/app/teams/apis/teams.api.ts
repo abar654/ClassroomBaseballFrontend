@@ -22,4 +22,18 @@ export class TeamsApi {
         return this.httpClient.get<Team[]>(this.teamsApi);
     }
 
+    public createTeam(name: string, image: string): Observable<Team> {
+        return this.httpClient.post<Team>(this.teamsApi, {
+            name: name,
+            image: image
+        });
+    }
+
+    updateTeam(id: number, name: string, image: string): Observable<void> {
+        return this.httpClient.put<void>(this.teamsApi + '/' + id, {
+            name: name,
+            image: image
+        });
+    }
+
 }

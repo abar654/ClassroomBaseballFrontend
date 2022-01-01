@@ -1,11 +1,16 @@
 <div class="teams-list-container">
     <app-team-summary 
-        *ngFor="let team of teams" 
-        [teamData]="team" 
-        class="summary-container">
+        *ngFor="let team of teams"
+        (click)="openForm(team)" 
+        [teamData]="team">
     </app-team-summary>
-    <div class="summary-container">
+    <div
+        (click)="openForm()" 
+        class="summary-container">
         <p>+</p>
         <p>Create new team</p>
     </div>
 </div>
+<app-modal (close)="onCloseModal()" *ngIf="formEditTeam">
+    <app-team-form [teamData]="formEditTeam"></app-team-form>
+</app-modal>
