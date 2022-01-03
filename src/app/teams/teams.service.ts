@@ -1,6 +1,8 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
 import { tap } from "rxjs/operators";
+import { Player } from "../players/models/player.model";
+import { PlayersService } from "../players/players.service";
 import { TeamsApi } from "./apis/teams.api";
 import { Team } from "./models/team.model";
 
@@ -14,7 +16,8 @@ import { Team } from "./models/team.model";
     public teamsState: BehaviorSubject<Team[]> = new BehaviorSubject<Team[]>([]);
 
     constructor(
-        private teamsApi: TeamsApi
+        private teamsApi: TeamsApi,
+        private playersService: PlayersService
     ) {}
 
     reload() {
@@ -46,15 +49,18 @@ import { Team } from "./models/team.model";
             );
     }
 
-    public createPlayerOnTeam(id: number) {
-        // Use playerService here!!!
-        // Remember to reload Teams after the update
-        /*
-        return this.playerService.addPlayer(id, name, color)
+    public createPlayerOnTeam(teamId: number, name: string = null, color: string = null): Observable<Player> {
+        return this.playersService.createPlayer(teamId, name, color)
             .pipe(
                 tap(() => this.loadTeams())
             );
-        */
+    }
+
+    public updatePlayerOnTeam(teamId: number, playerId: number, name: string, color: string) {
+        return this.playersService.updatePlayer(teamId, playerId, name, color)
+            .pipe(
+                tap(() => this.loadTeams())
+            );
     }
 
  }

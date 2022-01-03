@@ -1,3 +1,5 @@
+import { Player } from "src/app/players/models/player.model";
+
 /**
  * Data model for a team object
  */
@@ -6,6 +8,6 @@
     id: number,
     name: string,
     image: string,
-    players: any[], // TODO: Add players and games as the proper interfaces (with potential optional fields)
-    games: any[] 
+    players?: Player[], 
+    games?: any[] // TODO: Add games as the proper interface (with potential optional fields)
 }

@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from "@angular/core";
+import { Player } from "src/app/players/models/player.model";
 import { Team } from "../models/team.model";
 import { TeamsService } from "../teams.service";
 
@@ -20,8 +21,11 @@ export class TeamFormComponent implements OnInit {
     nameInput: string = "";
     imageInput: string = "";
 
+    editingPlayer: Player = null;
+    editingPlayerOriginal: Player = null;
+
     constructor(
-        private teamService: TeamsService
+        private teamsService: TeamsService
     ) {}
 
     ngOnInit(): void {
@@ -31,21 +35,44 @@ export class TeamFormComponent implements OnInit {
 
     saveName(): void {
         this.teamData.name = this.nameInput;
-        this.teamService.updateTeam(this.teamData.id, this.teamData.name, this.teamData.image).subscribe();
+        this.teamsService.updateTeam(this.teamData.id, this.teamData.name, this.teamData.image).subscribe();
     }
 
     saveImage(): void {
         this.teamData.image = this.imageInput;
-        this.teamService.updateTeam(this.teamData.id, this.teamData.name, this.teamData.image).subscribe();
+        this.teamsService.updateTeam(this.teamData.id, this.teamData.name, this.teamData.image).subscribe();
     }
 
     addPlayer(): void {
-        // TODO: Send updates directly and push using the ID that you receive back!
-        // Subscribe to the observable and push the player when it completes.
-        this.teamService.createPlayerOnTeam(this.teamData.id);
-        this.teamData.players.push({
-            name: "",
-            color: "#0000FF"
+        this.teamsService.createPlayerOnTeam(this.teamData.id).subscribe((player: Player) => {
+            this.teamData.players.push(player);
+            this.editPlayer(player);
+        });
+    }
+
+    isEditingPlayer(id: number): boolean {
+        return this.editingPlayer && this.editingPlayer.id === id;
+    }
+
+    editPlayer(player: Player) {
+        // If player was being edited but was not saved then revert.
+        if (this.editingPlayer) {
+            this.editingPlayer.name = this.editingPlayerOriginal.name;
+            this.editingPlayer.color = this.editingPlayerOriginal.color;
+        }
+        this.editingPlayer = player;
+        this.editingPlayerOriginal = JSON.parse(JSON.stringify(player)); // Deep copy data object
+    }
+
+    saveEditingPlayer() {
+        this.teamsService.updatePlayerOnTeam(
+            this.teamData.id, 
+            this.editingPlayer.id, 
+            this.editingPlayer.name,
+            this.editingPlayer.color
+        ).subscribe(() => {
+            this.editingPlayer = null;
+            this.editingPlayerOriginal = null;
         });
     }
 
