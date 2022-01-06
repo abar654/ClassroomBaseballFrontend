@@ -29,11 +29,15 @@ export class TeamsApi {
         });
     }
 
-    updateTeam(id: number, name: string, image: string): Observable<void> {
+    public updateTeam(id: number, name: string, image: string): Observable<void> {
         return this.httpClient.put<void>(this.teamsApi + '/' + id, {
             name: name,
             image: image
         });
+    }
+
+    public deleteTeam(id: number): Observable<void> {
+        return this.httpClient.delete<void>(this.teamsApi + '/' + id);
     }
 
 }

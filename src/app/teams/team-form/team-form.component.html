@@ -29,6 +29,10 @@
         *ngIf="!isEditingPlayer(player.id)"
         (click)="editPlayer(player)"
         type="button">Edit</button>
+    <button
+        *ngIf="!isEditingPlayer(player.id)"
+        (click)="deletePlayer(player)"
+        type="button">Delete</button>
     <button 
         *ngIf="isEditingPlayer(player.id)"
         (click)="saveEditingPlayer()" 
@@ -36,3 +40,5 @@
 </div>
 
 <button type="button" (click)="addPlayer()">Add new player</button>
+
+<button type="button" (click)="deleteTeam()">Delete team</button>

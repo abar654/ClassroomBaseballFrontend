@@ -25,8 +25,11 @@ export class TeamsListComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.teamsService.reload();
-        this.teamsSub = this.teamsService.teamsState.subscribe((teams: Team[]) => {
+        this.teamsSub = this.teamsService.getTeamsState().subscribe((teams: Team[]) => {
             this.teams = teams;
+            if (this.formEditTeam && !teams.some(team => team.id === this.formEditTeam.id)) {
+                this.formEditTeam = null;
+            }
         });
     }
 

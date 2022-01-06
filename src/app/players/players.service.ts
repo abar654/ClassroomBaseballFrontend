@@ -22,4 +22,8 @@ import { Player } from "./models/player.model";
         return this.playersApi.updatePlayer(teamId, playerId, name, color);
     }
 
+    public deletePlayer(teamId: number, playerId: number): Observable<void> {
+        return this.playersApi.deletePlayer(teamId, playerId);
+    }
+
  }

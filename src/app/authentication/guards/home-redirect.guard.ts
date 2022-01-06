@@ -18,7 +18,7 @@ export class HomeRedirectGuard implements CanActivate {
     ) {}
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
-        return this.authenticationService.authenticationState.value ? this.router.createUrlTree([environment.authenticatedRedirect]) : true;
+        return this.authenticationService.getAuthenticationState().value ? this.router.createUrlTree([environment.authenticatedRedirect]) : true;
     }
 
 }

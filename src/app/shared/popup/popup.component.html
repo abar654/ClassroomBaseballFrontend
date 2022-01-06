@@ -1,0 +1,9 @@
+<ng-container *ngIf="popupOptions">
+    <div class="backdrop"></div>
+    <div class="popup-box">
+        <p>{{ popupOptions.message }}</p>
+        <div class="popup-box-actions">
+            <button *ngFor="let button of popupOptions.buttons" (click)="onClick(button.onClick)">{{ button.label }}</button>
+        </div>
+    </div>
+</ng-container>

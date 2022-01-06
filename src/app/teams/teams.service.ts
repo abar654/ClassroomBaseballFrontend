@@ -13,7 +13,7 @@ import { Team } from "./models/team.model";
  @Injectable()
  export class TeamsService {
 
-    public teamsState: BehaviorSubject<Team[]> = new BehaviorSubject<Team[]>([]);
+    private teamsState: BehaviorSubject<Team[]> = new BehaviorSubject<Team[]>([]);
 
     constructor(
         private teamsApi: TeamsApi,
@@ -35,6 +35,10 @@ import { Team } from "./models/team.model";
         );
     }
 
+    public getTeamsState(): BehaviorSubject<Team[]> {
+        return this.teamsState;
+    }
+
     public createTeam(name: string = null, image: string = null): Observable<Team> {
         return this.teamsApi.createTeam(name, image)
             .pipe(
@@ -49,6 +53,13 @@ import { Team } from "./models/team.model";
             );
     }
 
+    public deleteTeam(id: number): Observable<void> {
+        return this.teamsApi.deleteTeam(id)
+            .pipe(
+                tap(() => this.loadTeams())
+            );
+    }
+
     public createPlayerOnTeam(teamId: number, name: string = null, color: string = null): Observable<Player> {
         return this.playersService.createPlayer(teamId, name, color)
             .pipe(
@@ -58,6 +69,13 @@ import { Team } from "./models/team.model";
 
     public updatePlayerOnTeam(teamId: number, playerId: number, name: string, color: string) {
         return this.playersService.updatePlayer(teamId, playerId, name, color)
+            .pipe(
+                tap(() => this.loadTeams())
+            );
+    }
+
+    public deletePlayerOnTeam(teamId: number, playerId: number) {
+        return this.playersService.deletePlayer(teamId, playerId)
             .pipe(
                 tap(() => this.loadTeams())
             );

@@ -18,7 +18,7 @@ export class AuthenticationGuard implements CanActivate {
     ) {}
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
-        return this.authenticationService.authenticationState.value ? true : this.router.createUrlTree([environment.logoutRedirect]);
+        return this.authenticationService.getAuthenticationState().value ? true : this.router.createUrlTree([environment.logoutRedirect]);
     }
 
 }

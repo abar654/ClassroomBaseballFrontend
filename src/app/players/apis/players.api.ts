@@ -36,4 +36,8 @@ export class PlayersApi {
         );
     }
 
+    public deletePlayer(teamId: number, playerId: number): Observable<void> {
+        return this.httpClient.delete<void>(this.teamsApi + teamId + this.playersApiExtension + "/" + playerId);
+    }
+
 }

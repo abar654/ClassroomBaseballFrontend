@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { Player } from "src/app/players/models/player.model";
+import { PopupService } from "src/app/shared/popup/popup.service";
 import { Team } from "../models/team.model";
 import { TeamsService } from "../teams.service";
 
@@ -25,7 +26,8 @@ export class TeamFormComponent implements OnInit {
     editingPlayerOriginal: Player = null;
 
     constructor(
-        private teamsService: TeamsService
+        private teamsService: TeamsService,
+        private popupService: PopupService
     ) {}
 
     ngOnInit(): void {
@@ -73,6 +75,47 @@ export class TeamFormComponent implements OnInit {
         ).subscribe(() => {
             this.editingPlayer = null;
             this.editingPlayerOriginal = null;
+        });
+    }
+
+    deletePlayer(player: Player): void {
+        this.popupService.show({
+            message: "Are you sure you want to delete the player: '" + player.name +"'?",
+            dismissable: false,
+            buttons: [
+                {
+                    label: "Delete",
+                    onClick: () => {
+                        this.teamsService.deletePlayerOnTeam(this.teamData.id, player.id).subscribe(() => {
+                            const deletedPlayerIndex = this.teamData.players.indexOf(player);
+                            this.teamData.players.splice(deletedPlayerIndex, 1);
+                        });
+                    }
+                },
+                {
+                    label: "cancel",
+                    onClick: () => {}
+                }
+            ]
+        });
+    }
+
+    deleteTeam(): void {
+        this.popupService.show({
+            message: "Are you sure you want to delete the team: '" + this.teamData.name +"'?",
+            dismissable: false,
+            buttons: [
+                {
+                    label: "Delete",
+                    onClick: () => {
+                        this.teamsService.deleteTeam(this.teamData.id).subscribe();
+                    }
+                },
+                {
+                    label: "cancel",
+                    onClick: () => {}
+                }
+            ]
         });
     }
 

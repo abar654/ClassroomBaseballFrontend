@@ -21,12 +21,16 @@ export class AuthenticationService {
     // If the user is authenticated then this will hold valid AuthenticationData,
     // otherwise it will hold null.
     // When authentication expires it is automatically set to null.
-    public authenticationState: BehaviorSubject<AuthenticationData> = new BehaviorSubject<AuthenticationData>(null);
+    private authenticationState: BehaviorSubject<AuthenticationData> = new BehaviorSubject<AuthenticationData>(null);
 
     constructor(
         private authenticationApi: AuthenticationApi,
         private registrationApi: RegistrationApi
     ){}
+
+    public getAuthenticationState(): BehaviorSubject<AuthenticationData> {
+        return this.authenticationState;
+    }
 
     public login(email: string, password: string): Observable<AuthenticationResponse> {
         return this.authenticationApi
