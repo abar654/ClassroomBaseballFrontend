@@ -13,7 +13,9 @@ import { Team } from "./models/team.model";
  @Injectable()
  export class TeamsService {
 
-    private teamsState: BehaviorSubject<Team[]> = new BehaviorSubject<Team[]>([]);
+    // A value of null signifies that the teamsState has not yet been loaded
+    // (otherwise the value will be an array, though possibly empty if no teams exist).
+    private teamsState: BehaviorSubject<Team[]> = new BehaviorSubject<Team[]>(null);
 
     constructor(
         private teamsApi: TeamsApi,

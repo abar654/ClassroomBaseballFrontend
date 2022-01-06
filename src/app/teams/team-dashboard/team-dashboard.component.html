@@ -1,1 +1,7 @@
-<p>Team dashboard!</p>
+<div *ngIf="!teamData" style="text-align: center;">
+    <app-loading-spinner></app-loading-spinner>
+</div>
+<ng-container *ngIf="teamData">
+    <p>Team dashboard!</p>
+    <p>{{ teamData.name }}</p>
+</ng-container>

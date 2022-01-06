@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { Team } from "../models/team.model";
 import { TeamsService } from "../teams.service";
@@ -20,15 +21,18 @@ export class TeamsListComponent implements OnInit, OnDestroy {
     private teamsSub: Subscription;
 
     constructor(
-        private teamsService: TeamsService
+        private teamsService: TeamsService,
+        private router: Router
     ){}
 
     ngOnInit(): void {
         this.teamsService.reload();
         this.teamsSub = this.teamsService.getTeamsState().subscribe((teams: Team[]) => {
-            this.teams = teams;
-            if (this.formEditTeam && !teams.some(team => team.id === this.formEditTeam.id)) {
-                this.formEditTeam = null;
+            if (teams !== null) {
+                this.teams = teams;
+                if (this.formEditTeam && !teams.some(team => team.id === this.formEditTeam.id)) {
+                    this.formEditTeam = null;
+                }
             }
         });
     }
@@ -45,6 +49,10 @@ export class TeamsListComponent implements OnInit, OnDestroy {
                 this.formEditTeam = team;
             });
         }
+    }
+
+    showDashboard(team: Team) {
+        this.router.navigate(['/teams/' + team.id]);
     }
 
     onCloseModal() {

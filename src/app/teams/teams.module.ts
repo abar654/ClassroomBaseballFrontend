@@ -14,6 +14,7 @@ import { TeamsService } from "./teams.service";
  */
 
 const teamsRoutes = [
+    { path: ':teamId', component: TeamDashboardComponent },
     { path: '', component: TeamsListComponent }
 ]
 

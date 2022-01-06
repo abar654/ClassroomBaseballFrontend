@@ -1,7 +1,7 @@
 <div class="teams-list-container">
     <app-team-summary 
         *ngFor="let team of teams"
-        (click)="openForm(team)" 
+        (click)="showDashboard(team)" 
         [teamData]="team">
     </app-team-summary>
     <div
