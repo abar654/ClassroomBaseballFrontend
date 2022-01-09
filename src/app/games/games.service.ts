@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
+import { tap } from "rxjs/operators";
 import { GamesApi } from "./apis/games.api";
 import { Game } from "./models/game.model";
 
@@ -10,12 +11,23 @@ import { Game } from "./models/game.model";
  @Injectable({providedIn: 'root'})
  export class GamesService {
 
+    private loadedGameState: BehaviorSubject<Game> = new BehaviorSubject<Game>(null);
+
     constructor(
         private gamesApi: GamesApi
     ) {}
 
-    public getGame(teamId: number, gameId: number) {
-        return this.gamesApi.getGame(teamId, gameId);
+    public getLoadedGameState(): BehaviorSubject<Game> {
+        return this.loadedGameState;
+    }
+
+    public loadGame(teamId: number, gameId: number): Observable<Game> {
+        return this.gamesApi.getGame(teamId, gameId)
+            .pipe(
+                tap((game: Game) => {
+                    this.loadedGameState.next(game);
+                })
+            );
     }
 
     public createGame(teamId: number, name: string, date: number): Observable<Game> {

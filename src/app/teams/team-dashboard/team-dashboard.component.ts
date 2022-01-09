@@ -19,7 +19,6 @@ import { TeamsService } from "../teams.service";
 export class TeamDashboardComponent implements OnInit, OnDestroy {
 
     teamData: Team = null;
-    mostRecentGame: Game = null;
     isEditing: boolean = false;
 
     private teamsSub: Subscription;
@@ -41,8 +40,10 @@ export class TeamDashboardComponent implements OnInit, OnDestroy {
                     this.teamData = teams.find(team => team.id === parseInt(params.teamId)) || null;
                     if (this.teamData !== null) {
                         if (this.teamData.games.length > 0) {
-                            this.mostRecentGame = this.teamData.games[this.teamData.games.length - 1];
-                            this.mostRecentGame.team = this.teamData;
+                            this.gamesService.loadGame(
+                                this.teamData.id, 
+                                this.teamData.games[this.teamData.games.length - 1].id
+                            ).subscribe();
                         }
                     } else {
                         this.router.navigate(['/teams']);
@@ -67,8 +68,9 @@ export class TeamDashboardComponent implements OnInit, OnDestroy {
     }
 
     continueMostRecentGame() {
-        if (this.teamData && this.mostRecentGame) {
-            this.router.navigate(['/teams/' + this.teamData.id + '/games/' + this.mostRecentGame.id]);
+        const mostRecentGame = this.gamesService.getLoadedGameState().value;
+        if (this.teamData && mostRecentGame) {
+            this.router.navigate(['/teams/' + this.teamData.id + '/games/' + mostRecentGame.id]);
         }
     }
 

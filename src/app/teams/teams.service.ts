@@ -22,7 +22,7 @@ import { Team } from "./models/team.model";
         private playersService: PlayersService
     ) {}
 
-    reload() {
+    public reload(): void {
         this.loadTeams();
     }
 
