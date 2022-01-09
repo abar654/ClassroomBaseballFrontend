@@ -1,0 +1,10 @@
+<ng-container *ngIf="displayedGame">
+    <h3>{{ displayedGame.name }}</h3>
+    <div class="player-row" *ngFor="let player of players; let i = index">
+        <p>{{ i + 1 }}. {{ player.name }} 0 runs - 0 strikes</p>
+    </div>
+    <p *ngIf="players.length === 0">There are no players on this team yet...</p>
+</ng-container>
+<ng-container *ngIf="!displayedGame">
+    <p>There are no games to display yet...</p>
+</ng-container>

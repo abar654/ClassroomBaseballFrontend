@@ -22,7 +22,7 @@ export class TeamFormComponent implements OnInit {
     nameInput: string = "";
     imageInput: string = "";
 
-    editingPlayer: Player = null;
+    editingPlayerId: number = null;
     editingPlayerOriginal: Player = null;
 
     constructor(
@@ -53,27 +53,40 @@ export class TeamFormComponent implements OnInit {
     }
 
     isEditingPlayer(id: number): boolean {
-        return this.editingPlayer && this.editingPlayer.id === id;
+        return this.editingPlayerId === id;
+    }
+
+    getEditingPlayer(): Player {
+        return this.teamData.players.find(player => player.id === this.editingPlayerId) || null;
     }
 
     editPlayer(player: Player) {
-        // If player was being edited but was not saved then revert.
-        if (this.editingPlayer) {
-            this.editingPlayer.name = this.editingPlayerOriginal.name;
-            this.editingPlayer.color = this.editingPlayerOriginal.color;
+        const editingPlayer = this.getEditingPlayer();
+
+        // If a player was being edited but was not saved then revert it.
+        if (editingPlayer) {
+            editingPlayer.name = this.editingPlayerOriginal.name;
+            editingPlayer.color = this.editingPlayerOriginal.color;
         }
-        this.editingPlayer = player;
+
+        this.editingPlayerId = player.id;
         this.editingPlayerOriginal = JSON.parse(JSON.stringify(player)); // Deep copy data object
     }
 
     saveEditingPlayer() {
+        const editingPlayer = this.getEditingPlayer();
+
+        console.log(this.teamData.id, 
+            editingPlayer.id, 
+            editingPlayer.name,
+            editingPlayer.color);
         this.teamsService.updatePlayerOnTeam(
             this.teamData.id, 
-            this.editingPlayer.id, 
-            this.editingPlayer.name,
-            this.editingPlayer.color
+            editingPlayer.id, 
+            editingPlayer.name,
+            editingPlayer.color
         ).subscribe(() => {
-            this.editingPlayer = null;
+            this.editingPlayerId = null;
             this.editingPlayerOriginal = null;
         });
     }

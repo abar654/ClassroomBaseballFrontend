@@ -30,8 +30,8 @@ export class TeamsListComponent implements OnInit, OnDestroy {
         this.teamsSub = this.teamsService.getTeamsState().subscribe((teams: Team[]) => {
             if (teams !== null) {
                 this.teams = teams;
-                if (this.formEditTeam && !teams.some(team => team.id === this.formEditTeam.id)) {
-                    this.formEditTeam = null;
+                if (this.formEditTeam) {
+                    this.formEditTeam = teams.find(team => team.id === this.formEditTeam.id) || null;
                 }
             }
         });

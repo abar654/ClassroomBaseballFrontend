@@ -14,7 +14,6 @@ export class AuthHeaderInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler) {
         let modifiedRequest = request;
         const authData = this.authenticationService.getAuthenticationState().value;
-        console.log("AuthHeaderInterceptor: ", authData);
         if (authData) {
             modifiedRequest = request.clone({
                 headers: request.headers.set("Authorization", "Bearer " + authData.token)

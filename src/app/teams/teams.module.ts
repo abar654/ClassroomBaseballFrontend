@@ -1,6 +1,8 @@
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
+import { GameDisplayComponent } from "../games/game-display/game-display.component";
+import { GamesModule } from "../games/games.module";
 import { SharedModule } from "../shared/shared.module";
 import { TeamsApi } from "./apis/teams.api";
 import { TeamDashboardComponent } from "./team-dashboard/team-dashboard.component";
@@ -14,9 +16,10 @@ import { TeamsService } from "./teams.service";
  */
 
 const teamsRoutes = [
+    { path: ':teamId/games/:gameId', component: GameDisplayComponent },
     { path: ':teamId', component: TeamDashboardComponent },
     { path: '', component: TeamsListComponent }
-]
+];
 
 @NgModule({
     declarations: [
@@ -27,6 +30,7 @@ const teamsRoutes = [
     ],
     imports: [
         SharedModule,
+        GamesModule, // TODO: Consider if this could be worth lazy loading.
         FormsModule,
         RouterModule.forChild(teamsRoutes)
     ],
