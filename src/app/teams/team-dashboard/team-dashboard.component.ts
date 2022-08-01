@@ -21,7 +21,7 @@ export class TeamDashboardComponent implements OnInit, OnDestroy {
     teamData: Team = null;
     isEditing: boolean = false;
 
-    private teamsSub: Subscription;
+    private teamsStateSub: Subscription;
 
     constructor(
         private route: ActivatedRoute,
@@ -34,27 +34,33 @@ export class TeamDashboardComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.route.params.subscribe((params: Params) => {
             this.teamsService.reload();
-            this.teamsSub = this.teamsService.getTeamsState().subscribe((teams: Team[]) => {
+            this.teamsStateSub = this.teamsService.getTeamsState().subscribe((teams: Team[]) => {
+
                 // If teams is still null then it hasn't been loaded yet.
                 if (teams !== null) {
                     this.teamData = teams.find(team => team.id === parseInt(params.teamId)) || null;
                     if (this.teamData !== null) {
+
                         if (this.teamData.games.length > 0) {
                             this.gamesService.loadGame(
                                 this.teamData.id, 
                                 this.teamData.games[this.teamData.games.length - 1].id
                             ).subscribe();
+                        } else {
+                            this.gamesService.unloadGame();
                         }
+
                     } else {
                         this.router.navigate(['/teams']);
                     }
                 }
+
             });
         });
     }
 
     ngOnDestroy(): void {
-        this.teamsSub && this.teamsSub.unsubscribe();
+        this.teamsStateSub && this.teamsStateSub.unsubscribe();
     }
 
     startNewGame() {

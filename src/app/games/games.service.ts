@@ -30,6 +30,10 @@ import { Game } from "./models/game.model";
             );
     }
 
+    public unloadGame(): void {
+        this.loadedGameState.next(null);
+    }
+
     public createGame(teamId: number, name: string, date: number): Observable<Game> {
         return this.gamesApi.createGame(teamId, name, date);
     }
