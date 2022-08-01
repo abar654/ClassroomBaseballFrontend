@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from "@angular/core";
+import { Subscription } from "rxjs/internal/Subscription";
 import { Player } from "src/app/players/models/player.model";
 import { PopupService } from "src/app/shared/popup/popup.service";
 import { Team } from "../models/team.model";
@@ -14,9 +15,8 @@ import { TeamsService } from "../teams.service";
     templateUrl: './team-form.component.html',
     styleUrls: ['./team-form.component.css']
 })
-export class TeamFormComponent implements OnInit {
+export class TeamFormComponent implements OnInit, OnDestroy {
 
-    @Input()
     teamData: Team;
 
     nameInput: string = "";
@@ -25,31 +25,37 @@ export class TeamFormComponent implements OnInit {
     editingPlayerId: number = null;
     editingPlayerOriginal: Player = null;
 
+    private currentTeamStateSub: Subscription;
+
     constructor(
         private teamsService: TeamsService,
         private popupService: PopupService
     ) {}
 
     ngOnInit(): void {
-        this.nameInput = this.teamData.name;
-        this.imageInput = this.teamData.image;
+        this.currentTeamStateSub = this.teamsService.getCurrentTeamState().subscribe((team: Team) => {
+            this.teamData = team;
+            // Reset the input fields.
+            this.nameInput = this.teamData ? this.teamData.name : "";
+            this.imageInput = this.teamData ? this.teamData.image : "";
+        });
+    }
+
+    ngOnDestroy(): void {
+        this.currentTeamStateSub && this.currentTeamStateSub.unsubscribe();
     }
 
     saveName(): void {
-        this.teamData.name = this.nameInput;
-        this.teamsService.updateTeam(this.teamData.id, this.teamData.name, this.teamData.image).subscribe();
+        this.teamsService.updateTeam(this.teamData.id, this.nameInput, this.teamData.image);
     }
 
     saveImage(): void {
-        this.teamData.image = this.imageInput;
-        this.teamsService.updateTeam(this.teamData.id, this.teamData.name, this.teamData.image).subscribe();
+        this.teamsService.updateTeam(this.teamData.id, this.teamData.name, this.imageInput);
     }
 
-    addPlayer(): void {
-        this.teamsService.createPlayerOnTeam(this.teamData.id).subscribe((player: Player) => {
-            this.teamData.players.push(player);
-            this.editPlayer(player);
-        });
+    async addPlayer() {
+        const newPlayer = await this.teamsService.createPlayerOnCurrentTeam();
+        this.editPlayer(newPlayer);
     }
 
     isEditingPlayer(id: number): boolean {
@@ -73,22 +79,15 @@ export class TeamFormComponent implements OnInit {
         this.editingPlayerOriginal = JSON.parse(JSON.stringify(player)); // Deep copy data object
     }
 
-    saveEditingPlayer() {
+    async saveEditingPlayer() {
         const editingPlayer = this.getEditingPlayer();
-
-        console.log(this.teamData.id, 
-            editingPlayer.id, 
-            editingPlayer.name,
-            editingPlayer.color);
-        this.teamsService.updatePlayerOnTeam(
-            this.teamData.id, 
+        await this.teamsService.updatePlayerOnCurrentTeam(
             editingPlayer.id, 
             editingPlayer.name,
             editingPlayer.color
-        ).subscribe(() => {
-            this.editingPlayerId = null;
-            this.editingPlayerOriginal = null;
-        });
+        );
+        this.editingPlayerId = null;
+        this.editingPlayerOriginal = null;
     }
 
     deletePlayer(player: Player): void {
@@ -99,10 +98,7 @@ export class TeamFormComponent implements OnInit {
                 {
                     label: "Delete",
                     onClick: () => {
-                        this.teamsService.deletePlayerOnTeam(this.teamData.id, player.id).subscribe(() => {
-                            const deletedPlayerIndex = this.teamData.players.indexOf(player);
-                            this.teamData.players.splice(deletedPlayerIndex, 1);
-                        });
+                        this.teamsService.deletePlayerOnCurrentTeam(player.id);
                     }
                 },
                 {
@@ -121,7 +117,7 @@ export class TeamFormComponent implements OnInit {
                 {
                     label: "Delete",
                     onClick: () => {
-                        this.teamsService.deleteTeam(this.teamData.id).subscribe();
+                        this.teamsService.deleteTeam(this.teamData.id);
                     }
                 },
                 {

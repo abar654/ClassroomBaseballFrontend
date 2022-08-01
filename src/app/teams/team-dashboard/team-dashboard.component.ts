@@ -21,7 +21,7 @@ export class TeamDashboardComponent implements OnInit, OnDestroy {
     teamData: Team = null;
     isEditing: boolean = false;
 
-    private teamsStateSub: Subscription;
+    private currentTeamStateSub: Subscription;
 
     constructor(
         private route: ActivatedRoute,
@@ -33,14 +33,20 @@ export class TeamDashboardComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.route.params.subscribe((params: Params) => {
-            this.teamsService.reload();
-            this.teamsStateSub = this.teamsService.getTeamsState().subscribe((teams: Team[]) => {
 
-                // If teams is still null then it hasn't been loaded yet.
+            this.teamsService.loadTeams();
+            this.teamsService.setCurrentTeamById(parseInt(params.teamId));
+
+            this.currentTeamStateSub = this.teamsService.getCurrentTeamState().subscribe((team: Team) => {
+
+                // If teams is still null then data hasn't been loaded yet.
+                const teams = this.teamsService.getTeamsState().getValue();
                 if (teams !== null) {
-                    this.teamData = teams.find(team => team.id === parseInt(params.teamId)) || null;
+
+                    this.teamData = team;
                     if (this.teamData !== null) {
 
+                        // Load the most recent game, if a game exists.
                         if (this.teamData.games.length > 0) {
                             this.gamesService.loadGame(
                                 this.teamData.id, 
@@ -53,6 +59,7 @@ export class TeamDashboardComponent implements OnInit, OnDestroy {
                     } else {
                         this.router.navigate(['/teams']);
                     }
+
                 }
 
             });
@@ -60,7 +67,7 @@ export class TeamDashboardComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.teamsStateSub && this.teamsStateSub.unsubscribe();
+        this.currentTeamStateSub && this.currentTeamStateSub.unsubscribe();
     }
 
     startNewGame() {

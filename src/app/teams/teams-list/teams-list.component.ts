@@ -16,7 +16,7 @@ import { TeamsService } from "../teams.service";
 export class TeamsListComponent implements OnInit, OnDestroy {
 
     teams: Team[] = [];
-    formEditTeam: Team = null;
+    isEditing: boolean = false;
 
     private teamsStateSub: Subscription;
 
@@ -26,13 +26,10 @@ export class TeamsListComponent implements OnInit, OnDestroy {
     ){}
 
     ngOnInit(): void {
-        this.teamsService.reload();
+        this.teamsService.loadTeams();
         this.teamsStateSub = this.teamsService.getTeamsState().subscribe((teams: Team[]) => {
             if (teams !== null) {
                 this.teams = teams;
-                if (this.formEditTeam) {
-                    this.formEditTeam = teams.find(team => team.id === this.formEditTeam.id) || null;
-                }
             }
         });
     }
@@ -41,14 +38,12 @@ export class TeamsListComponent implements OnInit, OnDestroy {
         this.teamsStateSub && this.teamsStateSub.unsubscribe();
     }
 
-    openForm(team?: Team) {
-        if (team) {
-            this.formEditTeam = team;
-        } else {
-            this.teamsService.createTeam().subscribe((team: Team) => {
-                this.formEditTeam = team;
-            });
+    async openForm(team?: Team) {
+        this.isEditing = true;
+        if (!team) {
+            team = await this.teamsService.createTeam();
         }
+        this.teamsService.setCurrentTeamById(team.id);
     }
 
     showDashboard(team: Team) {
@@ -56,7 +51,8 @@ export class TeamsListComponent implements OnInit, OnDestroy {
     }
 
     onCloseModal() {
-        this.formEditTeam = null;
+        this.isEditing = false;
+        this.teamsService.setCurrentTeamById(null);
     }
 
 }

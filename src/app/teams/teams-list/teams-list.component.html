@@ -11,6 +11,6 @@
         <p>Create new team</p>
     </div>
 </div>
-<app-modal (close)="onCloseModal()" *ngIf="formEditTeam">
-    <app-team-form [teamData]="formEditTeam"></app-team-form>
+<app-modal (close)="onCloseModal()" *ngIf="isEditing">
+    <app-team-form></app-team-form>
 </app-modal>

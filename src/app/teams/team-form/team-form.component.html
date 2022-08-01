@@ -1,44 +1,50 @@
-<div class="team-name-row">
-    <label for="team-name">Team Name</label>
-    <input 
-        type="text"
-        id="team-name" 
-        [(ngModel)]="nameInput">
-    <button 
-        type="button" 
-        [disabled]="nameInput === teamData.name"
-        (click)="saveName()">Save</button>
+<div *ngIf="!teamData" style="text-align: center;">
+    <app-loading-spinner></app-loading-spinner>
 </div>
 
-<div class="team-logo-container">
-    <label for="image">Logo</label>
-    <input 
-        type="text" 
-        id="image" 
-        [(ngModel)]="imageInput">
-    <button 
-        type="button" 
-        [disabled]="imageInput === teamData.image"
-        (click)="saveImage()">Save</button>
+<div *ngIf="teamData">
+    <div class="team-name-row">
+        <label for="team-name">Team Name</label>
+        <input 
+            type="text"
+            id="team-name" 
+            [(ngModel)]="nameInput">
+        <button 
+            type="button" 
+            [disabled]="nameInput === teamData.name"
+            (click)="saveName()">Save</button>
+    </div>
+    
+    <div class="team-logo-container">
+        <label for="image">Logo</label>
+        <input 
+            type="text" 
+            id="image" 
+            [(ngModel)]="imageInput">
+        <button 
+            type="button" 
+            [disabled]="imageInput === teamData.image"
+            (click)="saveImage()">Save</button>
+    </div>
+    
+    <div *ngFor="let player of teamData.players" class="player-row">
+        <input type="text" id="team-name" [(ngModel)]="player.name" [disabled]="!isEditingPlayer(player.id)">
+        <input type="color" [(ngModel)]="player.color" [disabled]="!isEditingPlayer(player.id)">
+        <button
+            *ngIf="!isEditingPlayer(player.id)"
+            (click)="editPlayer(player)"
+            type="button">Edit</button>
+        <button
+            *ngIf="!isEditingPlayer(player.id)"
+            (click)="deletePlayer(player)"
+            type="button">Delete</button>
+        <button 
+            *ngIf="isEditingPlayer(player.id)"
+            (click)="saveEditingPlayer()" 
+            type="button">Save</button>
+    </div>
+    
+    <button type="button" (click)="addPlayer()">Add new player</button>
+    
+    <button type="button" (click)="deleteTeam()">Delete team</button>
 </div>
-
-<div *ngFor="let player of teamData.players" class="player-row">
-    <input type="text" id="team-name" [(ngModel)]="player.name" [disabled]="!isEditingPlayer(player.id)">
-    <input type="color" [(ngModel)]="player.color" [disabled]="!isEditingPlayer(player.id)">
-    <button
-        *ngIf="!isEditingPlayer(player.id)"
-        (click)="editPlayer(player)"
-        type="button">Edit</button>
-    <button
-        *ngIf="!isEditingPlayer(player.id)"
-        (click)="deletePlayer(player)"
-        type="button">Delete</button>
-    <button 
-        *ngIf="isEditingPlayer(player.id)"
-        (click)="saveEditingPlayer()" 
-        type="button">Save</button>
-</div>
-
-<button type="button" (click)="addPlayer()">Add new player</button>
-
-<button type="button" (click)="deleteTeam()">Delete team</button>
