@@ -32,9 +32,9 @@ export class TeamDashboardComponent implements OnInit, OnDestroy {
     ){}
 
     ngOnInit(): void {
-        this.route.params.subscribe((params: Params) => {
+        this.route.params.subscribe(async (params: Params) => {
 
-            this.teamsService.loadTeams();
+            await this.teamsService.loadTeams();
             this.teamsService.setCurrentTeamById(parseInt(params.teamId));
 
             this.currentTeamStateSub = this.teamsService.getCurrentTeamState().subscribe((team: Team) => {
@@ -51,7 +51,7 @@ export class TeamDashboardComponent implements OnInit, OnDestroy {
                             this.gamesService.loadGame(
                                 this.teamData.id, 
                                 this.teamData.games[this.teamData.games.length - 1].id
-                            ).subscribe();
+                            );
                         } else {
                             this.gamesService.unloadGame();
                         }
@@ -70,13 +70,16 @@ export class TeamDashboardComponent implements OnInit, OnDestroy {
         this.currentTeamStateSub && this.currentTeamStateSub.unsubscribe();
     }
 
-    startNewGame() {
+    async startNewGame() {
         if (this.teamData) {
             const date = new Date();
             const name = formatDate(date, 'EEEE h:mm a', this.locale);
-            this.gamesService.createGame(this.teamData.id, name, date.getTime()).subscribe(game => {
+            try {
+                const game: Game = await this.gamesService.createGame(this.teamData.id, name, date.getTime());
                 this.router.navigate(['/teams/' + this.teamData.id + '/games/' + game.id]);
-            });
+            } catch (error) {
+                console.log("TeamDashboardComponent - startNewGame - error: ", error);
+            }
         }
     }
 

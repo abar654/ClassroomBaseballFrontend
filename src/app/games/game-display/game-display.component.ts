@@ -25,19 +25,16 @@ export class GameDisplayComponent implements OnInit, OnDestroy {
     ){}
 
     ngOnInit(): void {
-        this.route.params.subscribe((params: Params) => {
-            this.gamesService.loadGame(params.teamId, params.gameId).subscribe(
-                (game: Game) => {
+        this.route.params.subscribe(async (params: Params) => {
+            try {
+                await this.gamesService.loadGame(params.teamId, params.gameId);
+                this.gameSub = this.gamesService.getLoadedGameState().subscribe((game: Game) => {
                     this.gameData = game;
-                },
-                (error: any) => {
-                    console.log("loadGame - error: ", error);
-                    this.router.navigate(['/teams/' + params.teamId]);
-                }
-            );
-            this.gameSub = this.gamesService.getLoadedGameState().subscribe((game: Game) => {
-                this.gameData = game;
-            });
+                });
+            } catch (error: any) {
+                console.log("GameDisplayComponent - loadGame - error: ", error);
+                this.router.navigate(['/teams/' + params.teamId]);
+            }
         });
     }
 

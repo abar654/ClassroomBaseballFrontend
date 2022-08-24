@@ -54,8 +54,12 @@ export class TeamFormComponent implements OnInit, OnDestroy {
     }
 
     async addPlayer() {
-        const newPlayer = await this.teamsService.createPlayerOnCurrentTeam();
-        this.editPlayer(newPlayer);
+        try {
+            const newPlayer = await this.teamsService.createPlayerOnCurrentTeam();
+            this.editPlayer(newPlayer);
+        } catch (error) {
+            console.log("TeamFormComponent - addPlayer - error: ", error);
+        }
     }
 
     isEditingPlayer(id: number): boolean {
@@ -80,12 +84,17 @@ export class TeamFormComponent implements OnInit, OnDestroy {
     }
 
     async saveEditingPlayer() {
-        const editingPlayer = this.getEditingPlayer();
-        await this.teamsService.updatePlayerOnCurrentTeam(
-            editingPlayer.id, 
-            editingPlayer.name,
-            editingPlayer.color
-        );
+        try {
+            const editingPlayer = this.getEditingPlayer();
+            await this.teamsService.updatePlayerOnCurrentTeam(
+                editingPlayer.id, 
+                editingPlayer.name,
+                editingPlayer.color
+            );
+        } catch (error) {
+            console.log("TeamFormComponent - saveEditingPlayer - error: ", error);
+        }
+
         this.editingPlayerId = null;
         this.editingPlayerOriginal = null;
     }
@@ -102,7 +111,7 @@ export class TeamFormComponent implements OnInit, OnDestroy {
                     }
                 },
                 {
-                    label: "cancel",
+                    label: "Cancel",
                     onClick: () => {}
                 }
             ]
@@ -121,7 +130,7 @@ export class TeamFormComponent implements OnInit, OnDestroy {
                     }
                 },
                 {
-                    label: "cancel",
+                    label: "Cancel",
                     onClick: () => {}
                 }
             ]

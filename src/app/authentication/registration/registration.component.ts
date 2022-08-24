@@ -22,20 +22,18 @@ export class RegistrationComponent {
         private router: Router
     ){}
 
-    onSubmit(regForm: NgForm) {
+    async onSubmit(regForm: NgForm) {
         this.isLoading = true;
         this.errorMessage = null;
         if (regForm.value.password === regForm.value.checkPassword) {
-            this.authenticationService.register(regForm.value.email, regForm.value.password).subscribe(
-                () => {
-                    this.isLoading = false;
-                    this.router.navigate(['/login']);
-                },
-                (error) => {
-                    this.isLoading = false;
-                    this.errorMessage = error;
-                }
-            )
+            try {
+                await this.authenticationService.register(regForm.value.email, regForm.value.password);
+                this.isLoading = false;
+                this.router.navigate(['/login']);
+            } catch (error: any) {
+                this.isLoading = false;
+                this.errorMessage = error;
+            }
         } else {
             this.isLoading = false;
             this.errorMessage = "Passwords do not match!";

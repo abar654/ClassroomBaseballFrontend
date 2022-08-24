@@ -21,21 +21,23 @@ import { Game } from "./models/game.model";
         return this.loadedGameState;
     }
 
-    public loadGame(teamId: number, gameId: number): Observable<Game> {
+    public loadGame(teamId: number, gameId: number): Promise<Game> {
         return this.gamesApi.getGame(teamId, gameId)
             .pipe(
                 tap((game: Game) => {
                     this.loadedGameState.next(game);
                 })
-            );
+            )
+            .toPromise();
     }
 
     public unloadGame(): void {
         this.loadedGameState.next(null);
     }
 
-    public createGame(teamId: number, name: string, date: number): Observable<Game> {
-        return this.gamesApi.createGame(teamId, name, date);
+    public createGame(teamId: number, name: string, date: number): Promise<Game> {
+        return this.gamesApi.createGame(teamId, name, date)
+            .toPromise();
     }
 
  }

@@ -32,13 +32,14 @@ export class AuthenticationService {
         return this.authenticationState;
     }
 
-    public login(email: string, password: string): Observable<AuthenticationResponse> {
+    public login(email: string, password: string): Promise<AuthenticationResponse> {
         return this.authenticationApi
             .loginRequest(email, password)
             .pipe(
                 tap(this.updateAuthentication.bind(this)),
                 catchError(this.handleError)
-            );
+            )
+            .toPromise();
     }
 
     public logout() {
@@ -53,11 +54,12 @@ export class AuthenticationService {
         }
     }
 
-    public register(email: string, password: string): Observable<void> {
+    public register(email: string, password: string): Promise<void> {
         return this.registrationApi.registerRequest(email, password)
             .pipe(
                 catchError(this.handleError)
-            );
+            )
+            .toPromise();
     }
 
     public tryExistingLogin() {

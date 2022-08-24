@@ -23,20 +23,18 @@ export class LoginComponent {
         private router: Router
     ){}
 
-    onSubmit(loginForm: NgForm) {
+    async onSubmit(loginForm: NgForm) {
         this.isLoading = true;
         this.errorMessage = null;
-        this.authenticationService.login(loginForm.value.email, loginForm.value.password).subscribe(
-            () => {
-                console.log("LoginComponent: login success!");
-                this.isLoading = false;
-                this.router.navigate([environment.authenticatedRedirect]);
-            },
-            (error) => {
-                this.isLoading = false;
-                this.errorMessage = error;
-            }
-        );
+        try {
+            await this.authenticationService.login(loginForm.value.email, loginForm.value.password);
+            console.log("LoginComponent: login success!");
+            this.isLoading = false;
+            this.router.navigate([environment.authenticatedRedirect]);
+        } catch (error: any) {
+            this.isLoading = false;
+            this.errorMessage = error;
+        }
     }
 
 }

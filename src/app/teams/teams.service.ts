@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable } from "rxjs";
+import { BehaviorSubject } from "rxjs";
 import { tap } from "rxjs/operators";
 import { Player } from "../players/models/player.model";
 import { PlayersService } from "../players/players.service";
@@ -32,24 +32,35 @@ import { Team } from "./models/team.model";
         return this.currentTeamState;
     }
 
-    public loadTeams(): void {
-        this.teamsApi.getTeams().subscribe(
-            this.updateTeamsState.bind(this),
-            (error: any) => {
-                console.log("loadTeams - error: ", error);
-            }
-        );
+    public loadTeams(): Promise<void> {
+        return new Promise(resolve => {
+            this.teamsApi.getTeams().subscribe(
+                (teams: Team[]) => {
+                    this.updateTeamsState(teams);
+                    resolve();
+                },
+                (error: any) => {
+                    console.log("loadTeams - error: ", error);
+                    resolve();
+                }
+            );
+        });
     }
 
-    private updateTeamsState(teams: Team[]) {
+    private updateTeamsState(teams: Team[]): void {
         // Update the teams list
         this.teamsState.next(teams);
 
         // Update the current team
-        const currentTeam = this.currentTeamState.getValue()
+        const currentTeam = this.currentTeamState.getValue();
         currentTeam && this.setCurrentTeamById(currentTeam.id);
     }
 
+    /**
+     * Sets the current team by finding a loaded team with the given teamId.
+     * NOTE: If no teams are loaded then no team will be set.
+     * @param teamId the id of the team to set as the current team.
+     */
     public setCurrentTeamById(teamId: number): void {
         const teams = this.teamsState.getValue() || [];
         const currentTeam = teams.find(team => team.id === teamId) || null;
@@ -101,49 +112,41 @@ import { Team } from "./models/team.model";
     public createPlayerOnCurrentTeam(name: string = null, color: string = null): Promise<Player> {
         const currentTeam = this.getCurrentTeamState().getValue();
         return currentTeam && this.playersService.createPlayer(currentTeam.id, name, color)
-            .pipe(
-                tap((player: Player) => {
-                    this.updatePlayersForTeam(currentTeam.id, (players: Player[]) => {
-                        return [...players, player];
-                    });
-                })
-            )
-            .toPromise();
+            .then((player: Player) => {
+                this.updatePlayersForTeam(currentTeam.id, (players: Player[]) => {
+                    return [...players, player];
+                });
+                return player;
+            });
     }
 
     public updatePlayerOnCurrentTeam(playerId: number, name: string, color: string): Promise<void> {
         const currentTeam = this.getCurrentTeamState().getValue();
         return currentTeam && this.playersService.updatePlayer(currentTeam.id, playerId, name, color)
-            .pipe(
-                tap(() => {
-                    this.updatePlayersForTeam(currentTeam.id, (players: Player[]) => {
-                        return players.map(player => {
-                            if (player.id === playerId) {
-                                return {
-                                    ...player,
-                                    name,
-                                    color
-                                }
+            .then(() => {
+                this.updatePlayersForTeam(currentTeam.id, (players: Player[]) => {
+                    return players.map(player => {
+                        if (player.id === playerId) {
+                            return {
+                                ...player,
+                                name,
+                                color
                             }
-                            return player;
-                        });
+                        }
+                        return player;
                     });
-                })
-            )
-            .toPromise();
+                });
+            });
     }
 
     public deletePlayerOnCurrentTeam(playerId: number): Promise<void> {
         const currentTeam = this.getCurrentTeamState().getValue();
         return currentTeam && this.playersService.deletePlayer(currentTeam.id, playerId)
-            .pipe(
-                tap(() => {
-                    this.updatePlayersForTeam(currentTeam.id, (players: Player[]) => {
-                        return players.filter(player => player.id !== playerId);
-                    });
-                })
-            )
-            .toPromise();
+            .then(() => {
+                this.updatePlayersForTeam(currentTeam.id, (players: Player[]) => {
+                    return players.filter(player => player.id !== playerId);
+                });
+            });
     }
 
     private updatePlayersForTeam(teamId: number, updateFunction: (players: Player[]) => Player[]) {

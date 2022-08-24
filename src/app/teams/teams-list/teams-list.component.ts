@@ -41,7 +41,11 @@ export class TeamsListComponent implements OnInit, OnDestroy {
     async openForm(team?: Team) {
         this.isEditing = true;
         if (!team) {
-            team = await this.teamsService.createTeam();
+            try {
+                team = await this.teamsService.createTeam();
+            } catch (error) {
+                console.log("TeamsListComponent - openForm - error: ", error);
+            }
         }
         this.teamsService.setCurrentTeamById(team.id);
     }

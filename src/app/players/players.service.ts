@@ -14,16 +14,16 @@ import { Player } from "./models/player.model";
         private playersApi: PlayersApi
     ) {}
 
-    public createPlayer(teamId: number, name: string, color: string): Observable<Player> {
-        return this.playersApi.createPlayer(teamId, name, color);
+    public createPlayer(teamId: number, name: string, color: string): Promise<Player> {
+        return this.playersApi.createPlayer(teamId, name, color).toPromise();
     }
 
-    public updatePlayer(teamId: number, playerId: number, name: string, color: string): Observable<void> {
-        return this.playersApi.updatePlayer(teamId, playerId, name, color);
+    public updatePlayer(teamId: number, playerId: number, name: string, color: string): Promise<void> {
+        return this.playersApi.updatePlayer(teamId, playerId, name, color).toPromise();
     }
 
-    public deletePlayer(teamId: number, playerId: number): Observable<void> {
-        return this.playersApi.deletePlayer(teamId, playerId);
+    public deletePlayer(teamId: number, playerId: number): Promise<void> {
+        return this.playersApi.deletePlayer(teamId, playerId).toPromise();
     }
 
  }

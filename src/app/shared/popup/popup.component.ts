@@ -1,4 +1,5 @@
-import { Component, EventEmitter, OnInit, Output } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Subscription } from "rxjs";
 import { PopupOptions } from "./popup-options.model";
 import { PopupService } from "./popup.service";
 
@@ -14,18 +15,23 @@ import { PopupService } from "./popup.service";
     templateUrl: './popup.component.html',
     styleUrls: ['./popup.component.css']
 })
-export class PopupComponent implements OnInit{   
+export class PopupComponent implements OnInit, OnDestroy {   
 
     popupOptions: PopupOptions = null;
+    popupOptionsSub: Subscription = null;
 
     constructor(
         private popupService: PopupService
     ){}
 
     ngOnInit(): void {
-        this.popupService.getDisplayOptions().subscribe(options => {
+        this.popupOptionsSub = this.popupService.getDisplayOptions().subscribe(options => {
             this.popupOptions = options;
         });
+    }
+
+    ngOnDestroy(): void {
+        this.popupOptionsSub && this.popupOptionsSub.unsubscribe();
     }
 
     onClick(action: () => void) {
