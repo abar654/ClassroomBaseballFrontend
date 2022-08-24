@@ -1,4 +1,6 @@
+import { formatDate } from "@angular/common";
 import { Component, Input } from "@angular/core";
+import { Game } from "src/app/games/models/game.model";
 import { Team } from "../models/team.model";
 
 /**
@@ -12,9 +14,20 @@ import { Team } from "../models/team.model";
 })
 export class TeamSummaryComponent {
 
-    //TODO: Update to display most recent game and players
-    //      once we have made models for them.
     @Input()
     teamData: Team;
+
+    getMostRecentGameString(): string {
+        if (this.teamData && this.teamData.games && this.teamData.games.length > 0) {
+            let latestDate = 0;
+            this.teamData.games.forEach((game: Game) => {
+                if (game.date > latestDate) {
+                    latestDate = game.date;
+                }
+            });
+            return "Most recent game: " + formatDate(latestDate, 'dd/MM/yyyy', 'en-US');
+        }
+        return "No recent games";
+    }
 
 }

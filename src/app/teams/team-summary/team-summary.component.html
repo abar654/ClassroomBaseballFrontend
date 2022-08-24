@@ -1,5 +1,5 @@
-<div class="summary-container">
+<div class="summary-container" *ngIf="teamData">
     <p>{{ teamData.name }}</p>
     <p>{{ teamData.players.length }} Team mates</p>
-    <p>Most recent game: 12/12/21</p>
+    <p>{{ getMostRecentGameString() }}</p>
 </div>
