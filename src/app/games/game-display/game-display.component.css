@@ -30,6 +30,6 @@
 
 #panel-container {
     grid-area: center;
-    background-color: blueviolet;
+    background-color: #333333;
     height: 100%;
 }
