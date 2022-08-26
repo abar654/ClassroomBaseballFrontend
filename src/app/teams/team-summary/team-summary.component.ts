@@ -1,5 +1,5 @@
 import { formatDate } from "@angular/common";
-import { Component, Input } from "@angular/core";
+import { Component, Inject, Input, LOCALE_ID } from "@angular/core";
 import { Game } from "src/app/games/models/game.model";
 import { Team } from "../models/team.model";
 
@@ -17,6 +17,10 @@ export class TeamSummaryComponent {
     @Input()
     teamData: Team;
 
+    constructor(
+        @Inject(LOCALE_ID) private locale: string
+    ){}
+
     getMostRecentGameString(): string {
         if (this.teamData && this.teamData.games && this.teamData.games.length > 0) {
             let latestDate = 0;
@@ -25,7 +29,7 @@ export class TeamSummaryComponent {
                     latestDate = game.date;
                 }
             });
-            return "Most recent game: " + formatDate(latestDate, 'dd/MM/yyyy', 'en-US');
+            return "Most recent game: " + formatDate(latestDate, 'dd/MM/yyyy', this.locale);
         }
         return "No recent games";
     }

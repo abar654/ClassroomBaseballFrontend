@@ -30,4 +30,14 @@ export class GamesApi {
         });
     }
 
+    public updateGame(teamId: number, gameId: number, name: string, date: number): Observable<void> {
+        return this.httpClient.put<void>(
+            this.teamsApi + teamId + this.gamesApiExtension + "/" + gameId, 
+            {
+                name: name,
+                date: date
+            }
+        );
+    }
+
 }

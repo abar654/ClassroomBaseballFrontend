@@ -73,7 +73,7 @@ export class TeamDashboardComponent implements OnInit, OnDestroy {
     async startNewGame() {
         if (this.teamData) {
             const date = new Date();
-            const name = formatDate(date, 'EEEE h:mm a', this.locale);
+            const name = formatDate(date, 'EEEE MMM dd - h:mm a', this.locale);
             try {
                 const game: Game = await this.gamesService.createGame(this.teamData.id, name, date.getTime());
                 this.router.navigate(['/teams/' + this.teamData.id + '/games/' + game.id]);

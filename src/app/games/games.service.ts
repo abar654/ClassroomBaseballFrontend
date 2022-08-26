@@ -40,4 +40,21 @@ import { Game } from "./models/game.model";
             .toPromise();
     }
 
+    public updateGame(teamId: number, gameId: number, name: string, date: number): Promise<void> {
+        return this.gamesApi.updateGame(teamId, gameId, name, date)
+            .pipe(
+                tap(() => {
+                    // Check if the loaded game was updated.
+                    // If it was, then update it locally.
+                    const loadedGame = this.loadedGameState.getValue();
+                    if (loadedGame && loadedGame.id === gameId) {
+                        loadedGame.name = name;
+                        loadedGame.date = date;
+                        this.loadedGameState.next(loadedGame);
+                    }
+                })
+            )
+            .toPromise();
+    }
+
  }

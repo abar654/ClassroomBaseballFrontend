@@ -10,11 +10,14 @@ import { Game } from "../models/game.model";
 
 @Component({
     selector: 'app-game-display',
-    templateUrl: './game-display.component.html'
+    templateUrl: './game-display.component.html',
+    styleUrls: ['./game-display.component.css']
+
 })
 export class GameDisplayComponent implements OnInit, OnDestroy {
 
     gameData: Game = null;
+    nameInput: string = "";
 
     private gameSub: Subscription = null;
 
@@ -30,6 +33,7 @@ export class GameDisplayComponent implements OnInit, OnDestroy {
                 await this.gamesService.loadGame(params.teamId, params.gameId);
                 this.gameSub = this.gamesService.getLoadedGameState().subscribe((game: Game) => {
                     this.gameData = game;
+                    this.nameInput = game.name;
                 });
             } catch (error: any) {
                 console.log("GameDisplayComponent - loadGame - error: ", error);
@@ -40,6 +44,17 @@ export class GameDisplayComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.gameSub && this.gameSub.unsubscribe();
+    }
+
+    saveName(): void {
+        if (this.gameData && this.gameData.team) {
+            this.gamesService.updateGame(
+                this.gameData.team.id, 
+                this.gameData.id, 
+                this.nameInput, 
+                this.gameData.date
+            );
+        }         
     }
 
 }

@@ -1,2 +1,33 @@
-<p>Game Display!</p>
-<p *ngIf="gameData">{{ gameData.name }}</p>
+<div *ngIf="!gameData" style="text-align: center;">
+    <app-loading-spinner></app-loading-spinner>
+</div>
+
+<div class="game-display" *ngIf="gameData">
+
+    <div class="game-display-header">
+
+        <div class="header-display">
+            <h1>{{ gameData.team && gameData.team.name }}</h1>
+            <img class="header-logo" src="https://www.pesis.fi/wp-content/uploads/2020/12/MAIN-LOGO-WHITE-BACKGROUND-BASEBALL-FINLAND-PNG.png" alt="">
+        </div>
+
+        <div>
+            <input 
+                id="game-name" 
+                type="text" 
+                [(ngModel)]="nameInput">
+            <button 
+                type="button" 
+                [disabled]="nameInput === '' || nameInput === gameData.name"
+                (click)="saveName()">Save</button>
+        </div>
+
+        <h1>Date: {{ gameData.date | date:'dd/MM/yyyy' }}</h1>
+
+    </div>
+
+    <div id="panel-container">
+        <h2>Controls go here</h2>
+    </div>
+
+</div>
