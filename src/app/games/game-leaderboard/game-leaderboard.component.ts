@@ -19,6 +19,7 @@ export class GameLeaderboardComponent implements OnInit, OnDestroy {
     gameData: Game = null;
     rankedScorecards: Scorecard[] = [];
     private gameSub: Subscription = null;
+    private scoresSub: Subscription = null;
 
     constructor(
         private gamesService: GamesService
@@ -27,12 +28,15 @@ export class GameLeaderboardComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.gameSub = this.gamesService.getLoadedGameState().subscribe((game: Game) => {
             this.gameData = game;
-            this.prepareScorecards();
+        });
+        this.scoresSub = this.gamesService.getRankedScorecardsState().subscribe((scorecards: Scorecard[]) => {
+            this.rankedScorecards = scorecards;
         });
     }
 
     ngOnDestroy(): void {
         this.gameSub && this.gameSub.unsubscribe();
+        this.scoresSub && this.scoresSub.unsubscribe();
     }
 
     updateScorecard(scorecard: Scorecard, bases: number, strikes: number) {
@@ -47,38 +51,6 @@ export class GameLeaderboardComponent implements OnInit, OnDestroy {
                     console.log("GameLeaderboardComponent - updateScorecard - create - error: ", error);
                 });
         }
-    }
-
-    private prepareScorecards() {
-        //Set up a scorecard for each player
-        const scorecardsByPlayerId: { [playerId: number]: Scorecard } = {};
-        if (this.gameData && this.gameData.team && this.gameData.team.players) {
-            // Add all the existing scorecards
-            this.gameData.scorecards && this.gameData.scorecards.forEach(scorecard => {
-                if (scorecard && scorecard.player) {
-                    scorecardsByPlayerId[scorecard.player.id] = scorecard;
-                }
-            });
-            // Create scorecards for the players who don't have one yet
-            this.gameData.team.players.forEach(player => {
-                if (!scorecardsByPlayerId[player.id]) {
-                    scorecardsByPlayerId[player.id] = {
-                        id: null,
-                        bases: 0,
-                        strikes: 0,
-                        player: player
-                    };
-                }
-            });
-        }
-
-        // Prepare the array of ranked scorecards
-        this.rankedScorecards = Object.values(scorecardsByPlayerId).sort((a, b) => {
-            if (a.bases === b.bases) {
-                return a.strikes - b.strikes;
-            }
-            return b.bases - a.bases;
-        });
     }
 
 }

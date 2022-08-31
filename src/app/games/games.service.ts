@@ -14,14 +14,23 @@ import { Game } from "./models/game.model";
  export class GamesService {
 
     private loadedGameState: BehaviorSubject<Game> = new BehaviorSubject<Game>(null);
+    private rankedScorecardsState: BehaviorSubject<Scorecard[]> = new BehaviorSubject<Scorecard[]>([]);
 
     constructor(
         private gamesApi: GamesApi,
         private scorecardsService: ScorecardsService
-    ) {}
+    ) {
+        this.loadedGameState.subscribe(() => {
+            this.generateRankedScorecards();
+        });
+    }
 
     public getLoadedGameState(): BehaviorSubject<Game> {
         return this.loadedGameState;
+    }
+
+    public getRankedScorecardsState(): BehaviorSubject<Scorecard[]> {
+        return this.rankedScorecardsState;
     }
 
     public loadGame(teamId: number, gameId: number): Promise<Game> {
@@ -100,6 +109,43 @@ import { Game } from "./models/game.model";
                 })
             });
         });
+    }
+
+    private generateRankedScorecards() {
+        const loadedGame = this.getLoadedGameState().getValue();
+
+        //Set up a scorecard for each player
+        const scorecardsByPlayerId: { [playerId: number]: Scorecard } = {};
+        if (loadedGame && loadedGame.team && loadedGame.team.players) {
+            // Add all the existing scorecards
+            loadedGame.scorecards && loadedGame.scorecards.forEach(scorecard => {
+                if (scorecard && scorecard.player) {
+                    scorecardsByPlayerId[scorecard.player.id] = scorecard;
+                }
+            });
+            // Create scorecards for the players who don't have one yet
+            // NOTE: id of null represents a blank scorecard that has not been created
+            loadedGame.team.players.forEach(player => {
+                if (!scorecardsByPlayerId[player.id]) {
+                    scorecardsByPlayerId[player.id] = {
+                        id: null,
+                        bases: 0,
+                        strikes: 0,
+                        player: player
+                    };
+                }
+            });
+        }
+
+        // Broadcast the array of ranked scorecards
+        this.rankedScorecardsState.next(
+            Object.values(scorecardsByPlayerId).sort((a, b) => {
+                if (a.bases === b.bases) {
+                    return a.strikes - b.strikes;
+                }
+                return b.bases - a.bases;
+            })
+        );
     }
 
  }

@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Player } from 'src/app/players/models/player.model';
+import { Scorecard } from 'src/app/scorecards/models/scorecard.model';
 import { GamesService } from '../games.service';
 import { Game } from '../models/game.model';
 
@@ -16,8 +16,10 @@ import { Game } from '../models/game.model';
 export class GameSummaryComponent implements OnInit, OnDestroy {
 
     displayedGame: Game = null;
+    rankedScorecards: Scorecard[] = [];
 
     private gameSub: Subscription = null;
+    private scoresSub: Subscription = null;
 
     constructor(
         private gamesService: GamesService
@@ -26,11 +28,15 @@ export class GameSummaryComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.gameSub = this.gamesService.getLoadedGameState().subscribe(game => {
             this.displayedGame = game;
-        })
+        });
+        this.scoresSub = this.gamesService.getRankedScorecardsState().subscribe((scorecards: Scorecard[]) => {
+            this.rankedScorecards = scorecards;
+        });
     }
 
     ngOnDestroy(): void {
         this.gameSub && this.gameSub.unsubscribe();
+        this.scoresSub && this.scoresSub.unsubscribe();
     }
 
 }
