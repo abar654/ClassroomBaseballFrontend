@@ -1,3 +1,4 @@
+import { Scorecard } from "src/app/scorecards/models/scorecard.model";
 import { Team } from "src/app/teams/models/team.model";
 
 /**
@@ -9,5 +10,5 @@ export interface Game {
     name: string,
     date: number,
     team?: Team,
-    scorecards?: any[] // TODO: Add scorecards as the proper interface (with potential optional fields)
+    scorecards?: Scorecard[]
 }

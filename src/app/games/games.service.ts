@@ -1,6 +1,8 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable } from "rxjs";
+import { BehaviorSubject } from "rxjs";
 import { tap } from "rxjs/operators";
+import { Scorecard } from "../scorecards/models/scorecard.model";
+import { ScorecardsService } from "../scorecards/scorecards.service";
 import { GamesApi } from "./apis/games.api";
 import { Game } from "./models/game.model";
 
@@ -14,7 +16,8 @@ import { Game } from "./models/game.model";
     private loadedGameState: BehaviorSubject<Game> = new BehaviorSubject<Game>(null);
 
     constructor(
-        private gamesApi: GamesApi
+        private gamesApi: GamesApi,
+        private scorecardsService: ScorecardsService
     ) {}
 
     public getLoadedGameState(): BehaviorSubject<Game> {
@@ -55,6 +58,48 @@ import { Game } from "./models/game.model";
                 })
             )
             .toPromise();
+    }
+
+    public createScorecardForLoadedGame(playerId: number, bases: number, strikes: number): Promise<Scorecard> {
+        const loadedGame = this.getLoadedGameState().getValue();
+        return loadedGame && this.scorecardsService.createScorecard(
+                loadedGame.team.id, 
+                loadedGame.id,
+                playerId,
+                bases,
+                strikes
+            ).then((scorecard: Scorecard) => {
+                this.loadedGameState.next({
+                    ...loadedGame,
+                    scorecards: loadedGame.scorecards.concat([scorecard])
+                });
+                return scorecard;
+            });
+    }
+
+    public updateScorecardForLoadedGame(scorecardId: number, bases: number, strikes: number): Promise<void> {
+        const loadedGame = this.getLoadedGameState().getValue();
+        return loadedGame && this.scorecardsService.updateScorecard(
+            loadedGame.team.id, 
+            loadedGame.id,
+            scorecardId,
+            bases,
+            strikes
+        ).then(() => {
+            this.loadedGameState.next({
+                ...loadedGame,
+                scorecards: loadedGame.scorecards.map(scorecard => {
+                    if (scorecard.id === scorecardId) {
+                        return {
+                            ...scorecard,
+                            bases,
+                            strikes
+                        }
+                    }
+                    return scorecard;
+                })
+            });
+        });
     }
 
  }

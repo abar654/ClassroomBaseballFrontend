@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
-import { Player } from "src/app/players/models/player.model";
+import { Scorecard } from "src/app/scorecards/models/scorecard.model";
 import { GamesService } from "../games.service";
 import { Game } from "../models/game.model";
 
@@ -17,6 +17,7 @@ import { Game } from "../models/game.model";
 export class GameLeaderboardComponent implements OnInit, OnDestroy {
 
     gameData: Game = null;
+    rankedScorecards: Scorecard[] = [];
     private gameSub: Subscription = null;
 
     constructor(
@@ -26,6 +27,7 @@ export class GameLeaderboardComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.gameSub = this.gamesService.getLoadedGameState().subscribe((game: Game) => {
             this.gameData = game;
+            this.prepareScorecards();
         });
     }
 
@@ -33,13 +35,50 @@ export class GameLeaderboardComponent implements OnInit, OnDestroy {
         this.gameSub && this.gameSub.unsubscribe();
     }
 
-    // TODO: Change this (and dependant html) to be getRankedScorecards
-    getRankedPlayers(): Player[] {
-        // TODO: Add ranking based on scorecards
-        if (this.gameData && this.gameData.team && this.gameData.team.players) {
-            return this.gameData.team.players;
+    updateScorecard(scorecard: Scorecard, bases: number, strikes: number) {
+        if (scorecard.id) {
+            this.gamesService.updateScorecardForLoadedGame(scorecard.id, bases, strikes)
+                .catch(error => {
+                    console.log("GameLeaderboardComponent - updateScorecard - update - error: ", error);
+                });
+        } else {
+            this.gamesService.createScorecardForLoadedGame(scorecard.player.id, bases, strikes)
+                .catch(error => {
+                    console.log("GameLeaderboardComponent - updateScorecard - create - error: ", error);
+                });
         }
-        return [];
+    }
+
+    private prepareScorecards() {
+        //Set up a scorecard for each player
+        const scorecardsByPlayerId: { [playerId: number]: Scorecard } = {};
+        if (this.gameData && this.gameData.team && this.gameData.team.players) {
+            // Add all the existing scorecards
+            this.gameData.scorecards && this.gameData.scorecards.forEach(scorecard => {
+                if (scorecard && scorecard.player) {
+                    scorecardsByPlayerId[scorecard.player.id] = scorecard;
+                }
+            });
+            // Create scorecards for the players who don't have one yet
+            this.gameData.team.players.forEach(player => {
+                if (!scorecardsByPlayerId[player.id]) {
+                    scorecardsByPlayerId[player.id] = {
+                        id: null,
+                        bases: 0,
+                        strikes: 0,
+                        player: player
+                    };
+                }
+            });
+        }
+
+        // Prepare the array of ranked scorecards
+        this.rankedScorecards = Object.values(scorecardsByPlayerId).sort((a, b) => {
+            if (a.bases === b.bases) {
+                return a.strikes - b.strikes;
+            }
+            return b.bases - a.bases;
+        });
     }
 
 }

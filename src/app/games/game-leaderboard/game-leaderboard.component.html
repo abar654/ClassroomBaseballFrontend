@@ -3,18 +3,33 @@
     <div class="column-heading">Name</div>
     <div class="column-heading">Bases</div>
     <div class="column-heading">Strikes</div>
-    <ng-container *ngFor="let player of getRankedPlayers(); let i = index">
+    <ng-container *ngFor="let scorecard of rankedScorecards; let i = index">
         <div class="player-rank">{{ i + 1 }}</div>
-        <div class="player-details" [ngStyle]="{ backgroundColor: player.color }">
-            <div class="player-name">{{ player.name }}</div>
-            <img class="player-logo" src="https://flyclipart.com/thumb2/chef-hat-clip-art-618287.png" alt="Player logo">
+        <div class="player-details" [ngStyle]="{ backgroundColor: scorecard.player.color }">
+            <div class="player-name">{{ scorecard.player.name }}</div>
+            <img 
+                class="player-logo" 
+                src="https://flyclipart.com/thumb2/chef-hat-clip-art-618287.png" 
+                alt="Player logo">
         </div>
         <div class="player-bases">
-            <img class="base-logo" src="https://spng.pngfind.com/pngs/s/6-64042_28-collection-of-baseball-clipart-png-baseball-ball.png" alt="Player logo">
+            <img 
+                *ngFor="let i of [4, 3, 2, 1]"
+                class="base-logo"
+                [ngClass]="{ 'inactive-logo': i > scorecard.bases }"
+                (click)="updateScorecard(scorecard, i, scorecard.strikes)"
+                src="https://spng.pngfind.com/pngs/s/6-64042_28-collection-of-baseball-clipart-png-baseball-ball.png" 
+                alt="Base logo">
         </div>
         <div class="player-strikes">
-            <img class="strike-logo" src="https://www.clipartmax.com/png/middle/149-1494755_guess-the-emoji-explosion-emoticon-clip-art-explosion-icon-png.png" alt="Player logo">
+            <img 
+                *ngFor="let i of [3, 2, 1]"
+                class="strike-logo"
+                [ngClass]="{ 'inactive-logo': i > scorecard.strikes }"
+                (click)="updateScorecard(scorecard, scorecard.bases, i)"
+                src="https://www.clipartmax.com/png/middle/149-1494755_guess-the-emoji-explosion-emoticon-clip-art-explosion-icon-png.png"
+                alt="Strike logo">
         </div>
     </ng-container>
-    <div *ngIf="getRankedPlayers().length === 0" class="full-row">No players in team!</div>
+    <div *ngIf="rankedScorecards.length === 0" class="full-row">No players in team!</div>
 </div>

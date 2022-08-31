@@ -39,3 +39,7 @@
 .strike-logo {
     height: 50px;
 }
+
+.inactive-logo {
+    filter: grayscale(100%);
+}
