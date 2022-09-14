@@ -4,6 +4,7 @@ import { PlayersModule } from "../players/players.module";
 import { SharedModule } from "../shared/shared.module";
 import { GameDisplayComponent } from "./game-display/game-display.component";
 import { GameLeaderboardComponent } from "./game-leaderboard/game-leaderboard.component";
+import { GameListComponent } from "./game-list/game-list.component";
 import { GameSummaryComponent } from "./game-summary/game-summary.component";
 
 /**
@@ -16,7 +17,8 @@ import { GameSummaryComponent } from "./game-summary/game-summary.component";
     declarations: [
         GameSummaryComponent,
         GameDisplayComponent,
-        GameLeaderboardComponent
+        GameLeaderboardComponent,
+        GameListComponent
     ],
     imports: [
         SharedModule,
@@ -27,7 +29,8 @@ import { GameSummaryComponent } from "./game-summary/game-summary.component";
     ],
     exports: [
         GameSummaryComponent,
-        GameDisplayComponent
+        GameDisplayComponent,
+        GameListComponent
     ]
 })
 export class GamesModule {

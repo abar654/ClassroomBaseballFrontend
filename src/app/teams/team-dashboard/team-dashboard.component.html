@@ -23,8 +23,9 @@
         <p>Stats!</p>
     </div>
 
-    <div id="dashboard-history" class="panel-container">
-        <p>History!</p>
+    <div id="dashboard-list" class="panel-container">
+        <h2>Recent games</h2>
+        <app-game-list [games]="teamData.games"></app-game-list>
     </div>
 
 </div>
