@@ -6,9 +6,9 @@
     </app-team-summary>
     <div
         (click)="openForm()" 
-        class="summary-container">
-        <p>+</p>
-        <p>Create new team</p>
+        class="summary-container"
+        id="create-button">
+        <p>+ Create new team</p>
     </div>
 </div>
 <app-modal (close)="onCloseModal()" *ngIf="isEditing">

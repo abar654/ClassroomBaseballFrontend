@@ -29,9 +29,9 @@ app-root {
 }
 
 .summary-container {
-    margin: 10px;
-    padding: 50px;
-    border-style: solid;
+    width: calc(360px - 1.6rem);
+    min-height: calc(200px - 1.6rem);
+    padding: 0.8rem;
 }
 
 .form-text-input {
@@ -47,6 +47,9 @@ app-root {
     height: 1.75rem;
     font-family: var(--primary-font-family);
     font-size: 1rem;
+}
+
+.form-button, .summary-container {
     background-color: var(--secondary-dark);
     border-style: none;
     border-radius: 6px;
@@ -54,7 +57,7 @@ app-root {
     cursor: pointer;
 }
 
-.form-button:hover {
+.form-button:hover, .summary-container:hover {
     background-color: var(--secondary-extra-dark);
 }
 
@@ -71,6 +74,10 @@ app-root {
 
     body, html {
         font-size: 24px;
+    }
+
+    .summary-container {
+        width: calc(100vw - 3.6rem);
     }
 
 }

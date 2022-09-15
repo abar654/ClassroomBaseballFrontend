@@ -1,0 +1,16 @@
+p {
+    margin: 0px;
+}
+
+.title {
+    font-family: var(--primary-font-family);
+    font-size: 1.25rem;
+    margin-bottom: 0.3rem;
+}
+
+.details {
+    font-family: var(--secondary-font-family);
+    font-size: 0.7rem;
+    color: var(--primary-dark);
+}
+
