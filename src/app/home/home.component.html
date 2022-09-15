@@ -1,10 +1,11 @@
-<img 
-    class="jumbo-image"
-    src="/assets/images/cb-logo-blue.svg"
-    alt="Classroom Baseball Logo">
-<h1>Classroom Baseball</h1>
-<button type="button" (click)="onLoginClick()">LOGIN</button>
-<button type="button" (click)="onRegisterClick()">REGISTER</button>
+<div id="home-display">
+    <img 
+        id="jumbo-image"
+        src="/assets/images/cb-logo-blue.svg"
+        alt="Classroom Baseball Logo">
+    <button type="button" (click)="onLoginClick()">Log In</button>
+    <button type="button" (click)="onRegisterClick()">Sign Up</button>
+</div>
 <app-modal (close)="onCloseModal()" *ngIf="modalContents">
     <app-login *ngIf="modalContents === 'login'"></app-login>
     <app-registration *ngIf="modalContents === 'signup'"></app-registration>

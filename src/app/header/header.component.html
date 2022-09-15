@@ -1,29 +1,27 @@
-<!-- TODO: Consider removing the bootstrap from here and doing custom implementation -->
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
+<nav>
+    <div>
+        <img 
+            class="header-logo"
+            src="/assets/images/bat-pencil-cross.svg"
+            alt="Header Logo">
+        <a href="#" class="header-title">Classroom Baseball</a>
+    </div>
 
-        <!-- Header and mobile menu toggle button -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" (click)="isCollapsed = !isCollapsed">
-                <span class="icon-bar" *ngFor="let bar of [1, 2, 3]"></span>
-            </button>
-            <a href="#" class="navbar-brand">Classroom Baseball</a>
-        </div>
+    <div id="nav-right">
+        <a *ngIf="!isAuthenticated" (click)="onLogin()">Login</a>
+        <a *ngIf="!isAuthenticated" (click)="onRegister()">Sign Up</a>
+        <a *ngIf="isAuthenticated" (click)="onLogout()">Logout</a>
+    </div>
 
-        <!-- Login/Logout/Register buttons -->
-        <div class="navbar-collapse" [ngClass]="{ collapse: isCollapsed }">
-            <ul class="nav navbar-nav navbar-right">
-                <li *ngIf="!isAuthenticated">
-                    <a style="cursor: pointer;" (click)="onLogin()">Login</a>
-                </li>
-                <li *ngIf="!isAuthenticated">
-                    <a style="cursor: pointer;" (click)="onRegister()">Register</a>
-                </li>
-                <li *ngIf="isAuthenticated">
-                    <a style="cursor: pointer;" (click)="onLogout()">Logout</a>
-                </li>
-            </ul>
-        </div>
-
+    <div id="menu-button">
+        <a (click)="toggleCollapse()">
+            <span class="material-symbols-outlined">menu</span>
+        </a>
     </div>
 </nav>
+
+<div *ngIf="!isCollapsed" id="menu-panel">
+    <a *ngIf="!isAuthenticated" (click)="onLogin()">Login</a>
+    <a *ngIf="!isAuthenticated" (click)="onRegister()">Sign Up</a>
+    <a *ngIf="isAuthenticated" (click)="onLogout()">Logout</a>
+</div>

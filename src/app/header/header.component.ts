@@ -8,6 +8,8 @@ import { AuthenticationService } from '../authentication/authentication.service'
  * The header which appears along the top of the screen on all pages of the app.
  */
 
+// TODO: Consider adding a service which can be used to configure the text and links in the header.
+
 @Component({
     selector: 'app-header',
     templateUrl: './header.component.html',
@@ -15,7 +17,7 @@ import { AuthenticationService } from '../authentication/authentication.service'
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 
-    isCollapsed: boolean = false;
+    isCollapsed: boolean = true;
     isAuthenticated: boolean = false;
     authDataSub: Subscription;
 
@@ -36,15 +38,22 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     onLogin(): void {
         this.router.navigate(['/login']);
+        this.isCollapsed = true;
     }
 
     onRegister(): void {
         this.router.navigate(['/signup']);
+        this.isCollapsed = true;
     }
 
     onLogout(): void {
         this.authenticationService.logout();
         this.router.navigate([environment.logoutRedirect]);
+        this.isCollapsed = true;
+    }
+
+    toggleCollapse(): void {
+        this.isCollapsed = !this.isCollapsed;
     }
 
 }
