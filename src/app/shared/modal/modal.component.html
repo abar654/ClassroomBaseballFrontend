@@ -1,7 +1,12 @@
-<div class="backdrop" (click)="onClose()"></div>
-<div class="modal-box">
-    <ng-content></ng-content>
-    <div class="modal-box-actions">
-        <button (click)="onClose()">Close</button>
+<div id="backdrop" (click)="onClose()"></div>
+<div id="modal-box">
+    <div id="title-bar">
+        <h1 id="title-text">{{ title }}</h1>
+        <button type="button" (click)="onClose()">
+            <span class="material-symbols-outlined">close</span>
+        </button>
+    </div>
+    <div id="content">
+        <ng-content></ng-content>
     </div>
 </div>

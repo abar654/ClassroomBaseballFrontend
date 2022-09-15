@@ -12,27 +12,6 @@
 }
 
 button {
-    height: 56px;
     min-width: 25vh;
-    margin-bottom: 12px;
-    font-family: var(--primary-font-family);
-    font-size: 32px;
-    background-color: var(--secondary-dark);
-    border-style: none;
-    border-radius: 6px;
-    box-shadow: var(--shadow);
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: var(--secondary-extra-dark);
-}
-
-@media (max-width: 600px) {
-
-    button {
-        height: 42px;
-        font-size: 24px;
-    }
-
+    margin-bottom: 0.4rem;
 }

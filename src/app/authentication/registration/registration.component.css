@@ -1,0 +1,15 @@
+.form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+input {
+    width: 100%
+}
+
+button {
+    margin-top: 0.5rem;
+    min-width: 25vh;
+}

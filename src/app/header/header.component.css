@@ -1,8 +1,9 @@
 nav {
-    height: 56px;
+    height: 1.75rem;
     background-color: var(--primary-dark);
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
     box-shadow: var(--shadow);
 }
 
@@ -10,18 +11,18 @@ nav div {
     height: auto;
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-left: 12px;
-    margin-right: 12px;
+    gap: 0.4rem;
+    margin-left: 0.4rem;
+    margin-right: 0.4rem;
 }
 
 #nav-right {
-    gap: 24px;
+    gap: 0.75rem;
 }
 
 a {
     font-family: var(--primary-font-family);
-    font-size: 32px;
+    font-size: 1rem;
     color: var(--secondary-dark);
     text-decoration: none;
     cursor: pointer;
@@ -32,7 +33,7 @@ a:hover {
 }
 
 .header-logo {
-    height: 40px;
+    height: 1.25rem;
 }
 
 #menu-button, #menu-panel {
@@ -41,27 +42,12 @@ a:hover {
 
 @media (max-width: 600px) {
 
-    nav {
-        height: 48px;
-        flex-wrap: wrap;
-    }
-
-    nav div {
-        gap: 8px;
-        margin-left: 8px;
-        margin-right: 8px;
-    }
-
     #nav-right {
         display: none;
     }
 
     .header-logo {
-        height: 24px;
-    }
-
-    a {
-        font-size: 24px;
+        height: 1rem;
     }
     
     #menu-button {
@@ -74,9 +60,9 @@ a:hover {
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 12px;
-        padding-top: 12px;
-        padding-bottom: 12px;
+        gap: 0.5rem;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
         background-color: var(--secondary);
     }
 
