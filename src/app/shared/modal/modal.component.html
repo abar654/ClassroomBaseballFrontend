@@ -2,9 +2,12 @@
 <div id="modal-box">
     <div id="title-bar">
         <h1 id="title-text">{{ title }}</h1>
-        <button type="button" (click)="onClose()">
-            <span class="material-symbols-outlined">close</span>
-        </button>
+        <div>
+            <ng-content select="button.modal-button"></ng-content>
+            <button type="button" (click)="onClose()" class="modal-button">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
     </div>
     <div id="content">
         <ng-content></ng-content>

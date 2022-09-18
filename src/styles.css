@@ -66,6 +66,17 @@ app-root {
     cursor: default;
 }
 
+.modal-button {
+    background-color: transparent;
+    border-style: none;
+    cursor: pointer;
+    color: var(--secondary-dark);
+}
+
+.modal-button:hover {
+    color: var(--secondary-extra-dark);
+}
+
 .material-symbols-outlined {
     font-size: 1rem;
 }

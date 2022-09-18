@@ -19,6 +19,7 @@ export class TeamsListComponent implements OnInit, OnDestroy {
     isEditing: boolean = false;
 
     private teamsStateSub: Subscription;
+    private currentTeamStateSub: Subscription;
 
     constructor(
         private teamsService: TeamsService,
@@ -32,10 +33,16 @@ export class TeamsListComponent implements OnInit, OnDestroy {
                 this.teams = teams;
             }
         });
+        this.currentTeamStateSub = this.teamsService.getCurrentTeamState().subscribe((team: Team) => {
+            if (team === null) {
+                this.isEditing = false;
+            }
+        });
     }
 
     ngOnDestroy(): void {
         this.teamsStateSub && this.teamsStateSub.unsubscribe();
+        this.currentTeamStateSub && this.currentTeamStateSub.unsubscribe();
     }
 
     async openForm(team?: Team) {
@@ -55,7 +62,6 @@ export class TeamsListComponent implements OnInit, OnDestroy {
     }
 
     onCloseModal() {
-        this.isEditing = false;
         this.teamsService.setCurrentTeamById(null);
     }
 

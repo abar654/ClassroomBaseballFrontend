@@ -11,6 +11,12 @@
         <p>+ Create new team</p>
     </div>
 </div>
-<app-modal (close)="onCloseModal()" *ngIf="isEditing">
-    <app-team-form></app-team-form>
+<app-modal 
+    *ngIf="isEditing"
+    (close)="onCloseModal()"
+    title="Edit team">
+    <button type="button" class="modal-button" (click)="teamForm.deleteTeam()">
+        <span class="material-symbols-outlined">delete</span>
+    </button>
+    <app-team-form #teamForm></app-team-form>
 </app-modal>

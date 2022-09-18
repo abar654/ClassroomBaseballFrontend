@@ -39,17 +39,6 @@
     font-weight: normal;
 }
 
-button {
-    background-color: transparent;
-    border-style: none;
-    cursor: pointer;
-    color: var(--secondary-dark);
-}
-
-button:hover {
-    color: var(--secondary-extra-dark);
-}
-
 #content {
     padding-top: 1rem;
     padding-bottom: 1rem;
