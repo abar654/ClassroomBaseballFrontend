@@ -23,6 +23,7 @@
     outline-style: solid;
     outline-width: 0.25rem;
     outline-color: var(--secondary);
+    outline-offset: -0.05rem;
     border-radius: 6px;
 }
 
