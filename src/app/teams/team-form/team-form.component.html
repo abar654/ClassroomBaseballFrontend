@@ -3,32 +3,41 @@
 </div>
 
 <div *ngIf="teamData">
-    <div class="team-name-row">
-        <label for="team-name">Team Name</label>
+    <div id="team-name-row" [ngClass]="{ 'editing': isEditingTeamName() }">
         <input 
             type="text"
             id="team-name" 
-            [(ngModel)]="nameInput">
+            (focus)="setTeamNameFocus(true)"
+            (blur)="setTeamNameFocus(false)"
+            [(ngModel)]="nameInputValue"
+            #teamName>
         <button 
-            type="button" 
-            [disabled]="nameInput === teamData.name"
-            (click)="saveName()">Save</button>
+            type="button"
+            id="team-name-accept"
+            class="icon-button"
+            (click)="saveTeamName()">
+            <span class="material-symbols-outlined">done</span>
+        </button>
     </div>
     
+    <!-- Hide logo handling for now ...
     <div class="team-logo-container">
         <label for="image">Logo</label>
         <input 
             type="text" 
             id="image" 
-            [(ngModel)]="imageInput">
+            [(ngModel)]="imageInputValue">
         <button 
             type="button" 
-            [disabled]="imageInput === teamData.image"
+            [disabled]="imageInputValue === teamData.image"
             (click)="saveImage()">Save</button>
     </div>
+    -->
+
+    <hr>
     
     <div *ngFor="let player of teamData.players" class="player-row">
-        <input type="text" id="team-name" [(ngModel)]="player.name" [disabled]="!isEditingPlayer(player.id)">
+        <input type="text" id="player-name" [(ngModel)]="player.name" [disabled]="!isEditingPlayer(player.id)">
         <input type="color" [(ngModel)]="player.color" [disabled]="!isEditingPlayer(player.id)">
         <button
             *ngIf="!isEditingPlayer(player.id)"

@@ -21,6 +21,13 @@ body, html {
     font-size: 32px;
 }
 
+hr {
+    border-width: 0.5px;
+    border-color: var(--secondary-dark);
+    border-style: solid;
+    background-color: var(--secondary-dark);
+}
+
 app-root {
     min-height: 100vh;
     display: grid;
@@ -66,7 +73,7 @@ app-root {
     cursor: default;
 }
 
-.modal-button {
+.modal-button, .icon-button {
     background-color: transparent;
     border-style: none;
     cursor: pointer;

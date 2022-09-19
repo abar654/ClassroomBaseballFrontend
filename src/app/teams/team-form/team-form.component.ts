@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs/internal/Subscription";
 import { Player } from "src/app/players/models/player.model";
 import { PopupService } from "src/app/shared/popup/popup.service";
@@ -19,8 +19,10 @@ export class TeamFormComponent implements OnInit, OnDestroy {
 
     teamData: Team;
 
-    nameInput: string = "";
-    imageInput: string = "";
+    nameInputValue: string = "";
+    imageInputValue: string = "";
+
+    teamNameFocus: boolean = false;
 
     editingPlayerId: number = null;
     editingPlayerOriginal: Player = null;
@@ -36,8 +38,8 @@ export class TeamFormComponent implements OnInit, OnDestroy {
         this.currentTeamStateSub = this.teamsService.getCurrentTeamState().subscribe((team: Team) => {
             this.teamData = team;
             // Reset the input fields.
-            this.nameInput = this.teamData ? this.teamData.name : "";
-            this.imageInput = this.teamData ? this.teamData.image : "";
+            this.nameInputValue = this.teamData ? this.teamData.name : "";
+            this.imageInputValue = this.teamData ? this.teamData.image : "";
         });
     }
 
@@ -45,12 +47,22 @@ export class TeamFormComponent implements OnInit, OnDestroy {
         this.currentTeamStateSub && this.currentTeamStateSub.unsubscribe();
     }
 
-    saveName(): void {
-        this.teamsService.updateTeam(this.teamData.id, this.nameInput, this.teamData.image);
+    setTeamNameFocus(isFocused: boolean): void {
+        this.teamNameFocus = isFocused;
+    }
+
+    isEditingTeamName(): boolean {
+        return this.teamNameFocus || this.nameInputValue !== this.teamData.name;
+    }
+
+    saveTeamName(): void {
+        if (this.nameInputValue !== this.teamData.name) {
+            this.teamsService.updateTeam(this.teamData.id, this.nameInputValue, this.teamData.image);
+        }
     }
 
     saveImage(): void {
-        this.teamsService.updateTeam(this.teamData.id, this.teamData.name, this.imageInput);
+        this.teamsService.updateTeam(this.teamData.id, this.teamData.name, this.imageInputValue);
     }
 
     async addPlayer() {
@@ -72,6 +84,11 @@ export class TeamFormComponent implements OnInit, OnDestroy {
 
     editPlayer(player: Player) {
         const editingPlayer = this.getEditingPlayer();
+
+        // If team name was being edited but not saved then revert it.
+        if (this.isEditingTeamName()) {
+            this.nameInputValue = this.teamData.name;
+        }
 
         // If a player was being edited but was not saved then revert it.
         if (editingPlayer) {

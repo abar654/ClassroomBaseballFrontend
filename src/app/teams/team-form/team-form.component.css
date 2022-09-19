@@ -1,0 +1,33 @@
+#team-name-row {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#team-name {
+    width: 100%;
+    border-style: none;
+    font-family: var(--primary-font-family);
+    font-size: 1rem;
+    color: var(--secondary-dark);
+    background-color: transparent;
+}
+
+#team-name-accept {
+    visibility: hidden;
+}
+
+#team-name-row.editing {
+    background-color: var(--secondary);
+    outline-style: solid;
+    outline-width: 0.25rem;
+    outline-color: var(--secondary);
+    border-radius: 6px;
+}
+
+#team-name-row.editing * {
+    color: var(--accent);
+    outline: none;
+    visibility: visible;
+}
