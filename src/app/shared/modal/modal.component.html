@@ -4,7 +4,11 @@
         <h1 id="title-text">{{ title }}</h1>
         <div>
             <ng-content select="button.modal-button"></ng-content>
-            <button type="button" (click)="onClose()" class="modal-button">
+            <button 
+                type="button" 
+                (click)="onClose()" 
+                class="modal-button" 
+                title="Close">
                 <span class="material-symbols-outlined">close</span>
             </button>
         </div>

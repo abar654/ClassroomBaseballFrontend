@@ -49,6 +49,17 @@ export class TeamFormComponent implements OnInit, OnDestroy {
 
     setTeamNameFocus(isFocused: boolean): void {
         this.teamNameFocus = isFocused;
+        if (isFocused) {
+            const editingPlayer = this.getEditingPlayer();
+
+            // If a player was being edited but was not saved then revert it.
+            if (editingPlayer) {
+                editingPlayer.name = this.editingPlayerOriginal.name;
+                editingPlayer.color = this.editingPlayerOriginal.color;
+                this.editingPlayerId = null;
+                this.editingPlayerOriginal = null;
+            }
+        }
     }
 
     isEditingTeamName(): boolean {
@@ -67,7 +78,7 @@ export class TeamFormComponent implements OnInit, OnDestroy {
 
     async addPlayer() {
         try {
-            const newPlayer = await this.teamsService.createPlayerOnCurrentTeam();
+            const newPlayer = await this.teamsService.createPlayerOnCurrentTeam("New player");
             this.editPlayer(newPlayer);
         } catch (error) {
             console.log("TeamFormComponent - addPlayer - error: ", error);
@@ -85,15 +96,15 @@ export class TeamFormComponent implements OnInit, OnDestroy {
     editPlayer(player: Player) {
         const editingPlayer = this.getEditingPlayer();
 
-        // If team name was being edited but not saved then revert it.
-        if (this.isEditingTeamName()) {
-            this.nameInputValue = this.teamData.name;
-        }
-
         // If a player was being edited but was not saved then revert it.
         if (editingPlayer) {
             editingPlayer.name = this.editingPlayerOriginal.name;
             editingPlayer.color = this.editingPlayerOriginal.color;
+        }
+
+        // If team name was being edited but not saved then revert it.
+        if (this.isEditingTeamName()) {
+            this.nameInputValue = this.teamData.name;
         }
 
         this.editingPlayerId = player.id;

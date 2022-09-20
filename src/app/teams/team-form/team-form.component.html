@@ -36,24 +36,39 @@
 
     <hr>
     
-    <div *ngFor="let player of teamData.players" class="player-row">
-        <input type="text" id="player-name" [(ngModel)]="player.name" [disabled]="!isEditingPlayer(player.id)">
-        <input type="color" [(ngModel)]="player.color" [disabled]="!isEditingPlayer(player.id)">
-        <button
-            *ngIf="!isEditingPlayer(player.id)"
+    <div *ngFor="let player of teamData.players" class="player-row" [ngClass]="{ 'editing': isEditingPlayer(player.id) }">
+        <input 
+            type="text" 
+            class="player-name" 
+            [(ngModel)]="player.name" 
+            (focus)="editPlayer(player)">
+        <label 
+            class="color-label" 
             (click)="editPlayer(player)"
-            type="button">Edit</button>
+            [ngStyle]="{ backgroundColor: player.color || '#000000' }">
+            <input type="color" [(ngModel)]="player.color">
+        </label>
         <button
             *ngIf="!isEditingPlayer(player.id)"
             (click)="deletePlayer(player)"
-            type="button">Delete</button>
+            class="icon-button"
+            type="button">        
+            <span class="material-symbols-outlined">delete</span>
+        </button>
         <button 
             *ngIf="isEditingPlayer(player.id)"
             (click)="saveEditingPlayer()" 
-            type="button">Save</button>
+            class="icon-button"
+            type="button">
+            <span class="material-symbols-outlined">done</span>
+        </button>
     </div>
     
-    <button type="button" (click)="addPlayer()">Add new player</button>
-    
-    <button type="button" (click)="deleteTeam()">Delete team</button>
+    <button 
+        type="button"
+        id="add-player"
+        class="text-button"
+        (click)="addPlayer()">
+        + Add another player
+    </button>
 </div>

@@ -34,7 +34,11 @@
     *ngIf="isEditing"
     (close)="onCloseModal()"
     title="Edit team">
-    <button type="button" class="modal-button" (click)="teamForm.deleteTeam()">
+    <button 
+        type="button" 
+        class="modal-button" 
+        title="Delete team" 
+        (click)="teamForm.deleteTeam()">
         <span class="material-symbols-outlined">delete</span>
     </button>
     <app-team-form #teamForm></app-team-form>

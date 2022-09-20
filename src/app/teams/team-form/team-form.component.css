@@ -1,4 +1,4 @@
-#team-name-row {
+#team-name-row, .player-row {
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -31,4 +31,56 @@
     color: var(--accent);
     outline: none;
     visibility: visible;
+}
+
+.player-row {
+    width: calc(100% - 0.5rem);
+    padding: 0.2rem;
+    padding-left: 0.4rem;
+    margin-bottom: 0.5rem;
+    background-color: var(--secondary);
+    border-radius: 6px;
+}
+
+.player-name {
+    width: 100%;
+    border-style: none;
+    font-family: var(--secondary-font-family);
+    font-size: 0.6rem;
+    color: var(--black);
+    background-color: transparent;
+    text-transform: uppercase;
+}
+
+.editing .player-name, .editing .icon-button {
+    color: var(--accent);
+    outline-style: none ;
+}
+
+.color-label {
+    height: 0.6rem;
+    width: 1.8rem;
+    cursor: pointer;
+    border-style: solid;
+    border-width: 1px;
+    border-color: var(--black);
+    border-radius: 3px;
+}
+
+input[type="color"] {
+    visibility: hidden;
+}
+
+.icon-button {
+    color: var(--disabled);
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+}
+
+#add-player {
+    width: 100%;
+    font-family: var(--primary-font-family);
+    font-size: 0.75rem;
+    color: var(--primary-dark);
 }

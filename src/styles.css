@@ -73,7 +73,7 @@ app-root {
     cursor: default;
 }
 
-.modal-button, .icon-button {
+.modal-button, .icon-button, .text-button {
     background-color: transparent;
     border-style: none;
     cursor: pointer;
