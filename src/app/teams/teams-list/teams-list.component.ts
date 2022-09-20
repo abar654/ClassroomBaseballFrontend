@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
+import { HeaderService } from "src/app/header/header.service";
 import { Team } from "../models/team.model";
 import { TeamsService } from "../teams.service";
 
@@ -23,10 +24,12 @@ export class TeamsListComponent implements OnInit, OnDestroy {
 
     constructor(
         private teamsService: TeamsService,
-        private router: Router
+        private router: Router,
+        private headerService: HeaderService
     ){}
 
     ngOnInit(): void {
+        this.headerService.setTitle("My teams");
         this.teamsService.loadTeams();
         this.teamsStateSub = this.teamsService.getTeamsState().subscribe((teams: Team[]) => {
             if (teams !== null) {

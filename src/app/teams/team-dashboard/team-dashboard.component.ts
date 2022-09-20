@@ -4,6 +4,7 @@ import { ActivatedRoute, Params, Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { GamesService } from "src/app/games/games.service";
 import { Game } from "src/app/games/models/game.model";
+import { HeaderService } from "src/app/header/header.service";
 import { Team } from "../models/team.model";
 import { TeamsService } from "../teams.service";
 
@@ -26,6 +27,7 @@ export class TeamDashboardComponent implements OnInit, OnDestroy {
     constructor(
         private route: ActivatedRoute,
         private router: Router,
+        private headerService: HeaderService,
         private teamsService: TeamsService,
         private gamesService: GamesService,
         @Inject(LOCALE_ID) private locale: string
@@ -45,6 +47,8 @@ export class TeamDashboardComponent implements OnInit, OnDestroy {
 
                     this.teamData = team;
                     if (this.teamData !== null) {
+
+                        this.headerService.setTitle(this.teamData.name);
 
                         // Load the most recent game, if a game exists.
                         if (this.teamData.games.length > 0) {

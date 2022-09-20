@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Router } from "@angular/router";
+import { NavigationStart, Router } from "@angular/router";
 import { BehaviorSubject, Subscription } from "rxjs";
 import { environment } from "src/environments/environment";
 import { AuthenticationService } from "../authentication/authentication.service";
@@ -12,13 +12,21 @@ import { HeaderLink } from "./header-link.model";
 @Injectable({providedIn: 'root'})
 export class HeaderService {
 
-    private title: BehaviorSubject<string> = new BehaviorSubject<string>("Classroom Baseball");
+    private readonly DEFAULT_TITLE: string = "Classroom Baseball";
+
+    private title: BehaviorSubject<string> = new BehaviorSubject<string>(this.DEFAULT_TITLE);
     private links: BehaviorSubject<HeaderLink[]> = new BehaviorSubject<HeaderLink[]>([]);
 
     constructor(
         private router: Router,
         private authenticationService: AuthenticationService,
     ){
+
+        router.events.subscribe(event => {
+            if(event instanceof NavigationStart) {
+                this.title.next(this.DEFAULT_TITLE);
+            }
+        });
 
         const loginLink: HeaderLink = {
             labelHtml: "Login",
