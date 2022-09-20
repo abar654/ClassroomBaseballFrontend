@@ -11,6 +11,7 @@ p {
 .details {
     font-family: var(--secondary-font-family);
     font-size: 0.7rem;
+    font-weight: bold;
     color: var(--primary-dark);
 }
 

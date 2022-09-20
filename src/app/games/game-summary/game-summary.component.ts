@@ -39,4 +39,8 @@ export class GameSummaryComponent implements OnInit, OnDestroy {
         this.scoresSub && this.scoresSub.unsubscribe();
     }
 
+    getRankColor(rank: number): string {
+        return this.gamesService.getRankColor(rank);
+    }
+
 }

@@ -1,8 +1,11 @@
-<ng-container *ngIf="games && games.length > 0">
-    <div class="game-row" *ngFor="let game of games; let i = index">
-        <p (click)="continueGame(game)">{{ i + 1 }}. {{ game.name }} {{ game.date | date:'dd/MM/yyyy' }}</p>
-    </div>
-</ng-container>
+<div class="game-list" *ngIf="games && games.length > 0">
+    <div class="grid-line"></div>
+    <ng-container *ngFor="let game of games; let i = index">
+        <div class="game-name" (click)="continueGame(game)">{{ game.name }}</div>
+        <div class="game-date" (click)="continueGame(game)">{{ game.date | date:'dd/MM/yyyy' }}</div>
+        <div class="grid-line"></div>
+    </ng-container>
+</div>
 <ng-container *ngIf="!games || games.length === 0">
-    <p>There are no games to display yet...</p>
+    <h3 class="message-text">There are no games to display yet...</h3>
 </ng-container>

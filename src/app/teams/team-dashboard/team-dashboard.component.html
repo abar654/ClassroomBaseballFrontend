@@ -4,23 +4,31 @@
 
 <div class="dashboard" *ngIf="teamData">
 
-    <div class="dashboard-header">
+    <div id="dashboard-header">
         <div class="header-display">
-            <h1>{{ teamData.name }}</h1>
-            <img class="header-logo" src="https://www.pesis.fi/wp-content/uploads/2020/12/MAIN-LOGO-WHITE-BACKGROUND-BASEBALL-FINLAND-PNG.png" alt="">
-            <button type="button" (click)="showEditForm()">Edit team</button>
+            <img 
+                class="header-logo" 
+                src="/assets/images/cb-logo-blue.svg"
+                alt="Classroom Baseball Logo">
+            <button 
+                type="button" 
+                id="edit-button"
+                class="form-button"
+                (click)="showEditForm()">
+                Edit team
+            </button>
         </div>
-        <button class="header-button" type="button" (click)="continueMostRecentGame()">Continue Game</button>
-        <button class="header-button" type="button" (click)="startNewGame()">Start New Game</button>
+        <button class="header-button summary-container" type="button" (click)="continueMostRecentGame()">Continue Game</button>
+        <button class="header-button summary-container" type="button" (click)="startNewGame()">Start New Game</button>
     </div>
 
     <div id="dashboard-summary" class="panel-container">
-        <h2>Most Recent Game</h2>
+        <h2 (click)="continueMostRecentGame()">Most Recent Game</h2>
         <app-game-summary></app-game-summary>
     </div>
 
     <div id="dashboard-stats" class="panel-container">
-        <p>Stats!</p>
+        <h2>Last week's stats</h2>
     </div>
 
     <div id="dashboard-list" class="panel-container">

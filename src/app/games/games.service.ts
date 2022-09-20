@@ -111,6 +111,19 @@ import { Game } from "./models/game.model";
         });
     }
 
+    public getRankColor(rank: number): string {
+        switch (rank) {
+            case 1:
+                return 'var(--gold)';
+            case 2:
+                return 'var(--silver)';
+            case 3:
+                return 'var(--bronze)';
+            default:
+                return 'var(--black)';
+        }
+    }
+
     private generateRankedScorecards() {
         const loadedGame = this.getLoadedGameState().getValue();
 
