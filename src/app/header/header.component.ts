@@ -1,14 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { environment } from 'src/environments/environment';
-import { AuthenticationService } from '../authentication/authentication.service';
+import { HeaderLink } from './header-link.model';
+import { HeaderService } from './header.service';
 
 /**
  * The header which appears along the top of the screen on all pages of the app.
  */
-
-// TODO: Consider adding a service which can be used to configure the text and links in the header.
 
 @Component({
     selector: 'app-header',
@@ -17,38 +14,34 @@ import { AuthenticationService } from '../authentication/authentication.service'
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 
+    title: string = "Classroom Baseball";
+    links: HeaderLink[] = [];
     isCollapsed: boolean = true;
-    isAuthenticated: boolean = false;
-    authDataSub: Subscription;
+    subscriptions: Subscription[] = [];
 
     constructor(
-        private router: Router,
-        private authenticationService: AuthenticationService
+        private headerService: HeaderService
     ) { }
 
     ngOnInit(): void {
-        this.authDataSub = this.authenticationService.getAuthenticationState().subscribe((authData) => {
-            this.isAuthenticated = authData != null;
-        });
+        this.subscriptions = [
+            this.headerService.getTitleState().subscribe((title: string) => {
+                this.title = title;
+            }),
+            this.headerService.getLinksState().subscribe((links: HeaderLink[]) => {
+                this.links = links;
+            })
+        ];
     }
 
     ngOnDestroy(): void {
-        this.authDataSub && this.authDataSub.unsubscribe();
+        this.subscriptions.forEach((subscription: Subscription) => {
+            subscription.unsubscribe();
+        });
     }
 
-    onLogin(): void {
-        this.router.navigate(['/login']);
-        this.isCollapsed = true;
-    }
-
-    onRegister(): void {
-        this.router.navigate(['/signup']);
-        this.isCollapsed = true;
-    }
-
-    onLogout(): void {
-        this.authenticationService.logout();
-        this.router.navigate([environment.logoutRedirect]);
+    onLinkClick(link: HeaderLink) {
+        link.onClick();
         this.isCollapsed = true;
     }
 

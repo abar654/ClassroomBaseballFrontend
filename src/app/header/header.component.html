@@ -4,13 +4,11 @@
             class="header-logo"
             src="/assets/images/bat-pencil-cross.svg"
             alt="Header Logo">
-        <a href="#" class="header-title">Classroom Baseball</a>
+        <a href="#" class="header-title">{{ title }}</a>
     </div>
 
     <div id="nav-right">
-        <a *ngIf="!isAuthenticated" (click)="onLogin()">Login</a>
-        <a *ngIf="!isAuthenticated" (click)="onRegister()">Sign Up</a>
-        <a *ngIf="isAuthenticated" (click)="onLogout()">Logout</a>
+        <a *ngFor="let link of links" (click)="onLinkClick(link)" [innerHTML]="link.labelHtml"></a>
     </div>
 
     <div id="menu-button">
@@ -21,7 +19,5 @@
 </nav>
 
 <div *ngIf="!isCollapsed" id="menu-panel">
-    <a *ngIf="!isAuthenticated" (click)="onLogin()">Login</a>
-    <a *ngIf="!isAuthenticated" (click)="onRegister()">Sign Up</a>
-    <a *ngIf="isAuthenticated" (click)="onLogout()">Logout</a>
+    <a *ngFor="let link of links" (click)="onLinkClick(link)" [innerHTML]="link.labelHtml"></a>
 </div>
