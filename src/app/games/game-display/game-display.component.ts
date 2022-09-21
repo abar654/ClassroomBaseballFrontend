@@ -49,9 +49,6 @@ export class GameDisplayComponent implements OnInit, OnDestroy {
     ){}
 
     ngOnInit(): void {
-        this.headerService.addLink(this.deleteLink);
-        this.headerService.addLink(this.undoLink);
-
         this.route.params.subscribe(async (params: Params) => {
             try {
                 await this.gamesService.loadGame(params.teamId, params.gameId);
@@ -59,6 +56,13 @@ export class GameDisplayComponent implements OnInit, OnDestroy {
                     if (game) {
                         this.gameData = game;
                         this.nameInput = game.name;
+
+                        this.headerService.addLink(this.deleteLink);
+                        this.headerService.addLink(this.undoLink);
+
+                        if (game.team) {
+                            this.headerService.setTitle(game.team.name);
+                        }
                     } else {
                         this.router.navigate(['/teams/' + params.teamId]);
                     }

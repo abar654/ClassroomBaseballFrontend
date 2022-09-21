@@ -17,7 +17,7 @@ import { Game } from "./models/game.model";
     private rankedScorecardsState: BehaviorSubject<Scorecard[]> = new BehaviorSubject<Scorecard[]>([]);
 
     private backupScorecards: Scorecard[] = [];
-    private readonly MAX_BACKUP: number = 10;
+    private readonly MAX_BACKUP: number = 25;
 
     constructor(
         private gamesApi: GamesApi,

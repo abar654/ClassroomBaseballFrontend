@@ -34,6 +34,15 @@ a:hover {
     color: var(--secondary-extra-dark);
 }
 
+#header-title {
+    cursor: auto;
+}
+
+#header-title:hover {
+    cursor: auto;
+    color: var(--secondary-dark);
+}
+
 .header-logo {
     height: 1.25rem;
 }
