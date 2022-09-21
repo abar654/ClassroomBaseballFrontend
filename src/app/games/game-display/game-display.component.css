@@ -8,13 +8,48 @@
     background-color: var(--secondary);
 }
 
-.header-display {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 10px;
+.dashboard-header-logo {
+    margin: 0.5rem
 }
 
 .dashboard-panel {
     grid-area: center;
+}
+
+#game-name-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#game-name {
+    width:fit-content;
+    border-style: none;
+    font-family: var(--primary-font-family);
+    font-size: 1rem;
+    text-align: center;
+    text-decoration: underline;
+    color: var(--secondary-dark);
+    background-color: transparent;
+}
+
+#game-name-row.editing {
+    background-color: var(--secondary);
+    outline-style: solid;
+    outline-width: 0.25rem;
+    outline-color: var(--secondary);
+    outline-offset: -0.05rem;
+    border-radius: 6px;
+}
+
+#game-name-row.editing * {
+    color: var(--accent);
+    outline: none;
+}
+
+h1 {
+    color: var(--secondary-dark);
+    font-family: var(--primary-font-family);
+    font-size: 1rem;
+    font-weight: normal;
 }

@@ -86,15 +86,17 @@ export class HeaderService {
 
     public addLink(link: HeaderLink) {
         const links = [ ...this.links.getValue() ];
-        let insertIndex = 0;
-        while (insertIndex < links.length) {
-            if (links[insertIndex].priority < link.priority) {
-                break;
+        if (links.indexOf(link) < 0) {
+            let insertIndex = 0;
+            while (insertIndex < links.length) {
+                if (links[insertIndex].priority < link.priority) {
+                    break;
+                }
+                insertIndex++;
             }
-            insertIndex++;
+            links.splice(insertIndex, 0, link);
+            this.links.next(links);
         }
-        links.splice(insertIndex, 0, link);
-        this.links.next(links);
     }
 
     public removeLink(link: HeaderLink) {

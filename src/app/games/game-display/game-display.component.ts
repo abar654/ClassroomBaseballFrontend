@@ -20,7 +20,8 @@ import { Game } from "../models/game.model";
 export class GameDisplayComponent implements OnInit, OnDestroy {
 
     gameData: Game = null;
-    nameInput: string = "";
+    nameInputValue: string = "";
+    nameFocus: boolean = false;
 
     private gameSub: Subscription = null;
 
@@ -55,7 +56,7 @@ export class GameDisplayComponent implements OnInit, OnDestroy {
                 this.gameSub = this.gamesService.getLoadedGameState().subscribe((game: Game) => {
                     if (game) {
                         this.gameData = game;
-                        this.nameInput = game.name;
+                        this.nameInputValue = game.name;
 
                         this.headerService.addLink(this.deleteLink);
                         this.headerService.addLink(this.undoLink);
@@ -80,12 +81,20 @@ export class GameDisplayComponent implements OnInit, OnDestroy {
         this.gameSub && this.gameSub.unsubscribe();
     }
 
+    setGameNameFocus(isFocused: boolean): void {
+        this.nameFocus = isFocused;
+    }
+
+    isEditingName(): boolean {
+        return this.nameFocus || this.nameInputValue !== this.gameData.name;
+    }
+
     saveName(): void {
         if (this.gameData && this.gameData.team) {
             this.gamesService.updateGame(
                 this.gameData.team.id, 
                 this.gameData.id, 
-                this.nameInput, 
+                this.nameInputValue, 
                 this.gameData.date
             );
         }         

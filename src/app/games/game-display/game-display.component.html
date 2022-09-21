@@ -11,15 +11,21 @@
             src="/assets/images/cb-logo-blue.svg"
             alt="Classroom Baseball Logo">
 
-        <div>
+        <div id="game-name-row" [ngClass]="{ 'editing': isEditingName() }">
             <input 
-                id="game-name" 
                 type="text" 
-                [(ngModel)]="nameInput">
+                id="game-name" 
+                (focus)="setGameNameFocus(true)"
+                (blur)="setGameNameFocus(false)"
+                [(ngModel)]="nameInputValue">
             <button 
-                type="button" 
-                [disabled]="nameInput === '' || nameInput === gameData.name"
-                (click)="saveName()">Save</button>
+                *ngIf="isEditingName()"
+                type="button"
+                id="game-name-accept"
+                class="icon-button"
+                (click)="saveName()">
+                <span class="material-symbols-outlined">done</span>
+            </button>
         </div>
 
         <h1>Date: {{ gameData.date | date:'dd/MM/yyyy' }}</h1>
