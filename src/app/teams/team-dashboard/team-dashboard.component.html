@@ -2,7 +2,7 @@
     <app-loading-spinner></app-loading-spinner>
 </div>
 
-<div class="dashboard" *ngIf="teamData">
+<div class="dashboard fit-screen" *ngIf="teamData">
 
     <div id="dashboard-header">
         <div class="header-display">
@@ -24,7 +24,7 @@
 
     <div id="dashboard-summary" class="panel-container">
         <h2 (click)="continueMostRecentGame()">Most Recent Game</h2>
-        <app-game-summary></app-game-summary>
+        <app-game-summary class="scroll-content"></app-game-summary>
     </div>
 
     <div id="dashboard-stats" class="panel-container">
@@ -33,7 +33,7 @@
 
     <div id="dashboard-list" class="panel-container">
         <h2>Recent games</h2>
-        <app-game-list [games]="teamData.games"></app-game-list>
+        <app-game-list [games]="teamData.games" class="scroll-content"></app-game-list>
     </div>
 
 </div>

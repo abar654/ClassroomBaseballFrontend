@@ -1,5 +1,4 @@
 .dashboard {
-    height: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: auto 1fr;
@@ -48,6 +47,8 @@
 }
 
 .panel-container {
+    height: calc(100% - 3.4rem);
+    overflow: hidden;
     padding: 0.5rem;
     margin-top: 1.2rem;
     margin-bottom: 1.2rem;
@@ -67,6 +68,11 @@
     text-decoration: underline;
     font-weight: normal;
     font-size: 1.25rem;
+}
+
+.scroll-content {
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 #dashboard-summary {
@@ -115,6 +121,16 @@
         margin-bottom: 1.2rem;
         margin-left: 1.2rem;
         margin-right: 1.2rem;
+    }
+
+    .panel-container {
+        height: 100%;
+        overflow: visible;
+    }
+
+    .scroll-content {
+        overflow-y: visible;
+        overflow-x: visible;
     }
 
 }

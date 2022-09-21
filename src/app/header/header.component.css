@@ -1,5 +1,5 @@
 nav {
-    height: 1.75rem;
+    height: var(--header-height);
     background-color: var(--primary-dark);
     display: flex;
     justify-content: space-between;
