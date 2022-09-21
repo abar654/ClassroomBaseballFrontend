@@ -21,6 +21,8 @@ nav div {
 }
 
 a {
+    display: flex;
+    align-items: center;
     font-family: var(--primary-font-family);
     font-size: 1rem;
     color: var(--secondary-dark);

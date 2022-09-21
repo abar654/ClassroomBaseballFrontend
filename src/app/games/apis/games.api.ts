@@ -40,4 +40,8 @@ export class GamesApi {
         );
     }
 
+    public deleteGame(teamId: number, gameId: number): Observable<void> {
+        return this.httpClient.delete<void>(this.teamsApi + teamId + this.gamesApiExtension + "/" + gameId);
+    }
+
 }

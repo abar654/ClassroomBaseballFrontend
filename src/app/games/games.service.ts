@@ -69,6 +69,20 @@ import { Game } from "./models/game.model";
             .toPromise();
     }
 
+    public deleteGame(teamId: number, gameId: number): Promise<void> {
+        return this.gamesApi.deleteGame(teamId, gameId)
+            .pipe(
+                tap(() => {
+                    // Check if the loaded game was deleted.
+                    const loadedGame = this.loadedGameState.getValue();
+                    if (loadedGame && loadedGame.id === gameId) {
+                        this.unloadGame();
+                    }
+                })
+            )
+            .toPromise();
+    }
+
     public createScorecardForLoadedGame(playerId: number, bases: number, strikes: number): Promise<Scorecard> {
         const loadedGame = this.getLoadedGameState().getValue();
         return loadedGame && this.scorecardsService.createScorecard(
