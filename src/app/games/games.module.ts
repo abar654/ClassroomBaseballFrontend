@@ -6,6 +6,7 @@ import { GameDisplayComponent } from "./game-display/game-display.component";
 import { GameLeaderboardComponent } from "./game-leaderboard/game-leaderboard.component";
 import { GameListComponent } from "./game-list/game-list.component";
 import { GameSummaryComponent } from "./game-summary/game-summary.component";
+import { PlayerAvatarComponent } from "./player-avatar/player-avatar.component";
 
 /**
  * A module for displaying and managing data about games.
@@ -18,7 +19,8 @@ import { GameSummaryComponent } from "./game-summary/game-summary.component";
         GameSummaryComponent,
         GameDisplayComponent,
         GameLeaderboardComponent,
-        GameListComponent
+        GameListComponent,
+        PlayerAvatarComponent
     ],
     imports: [
         SharedModule,
