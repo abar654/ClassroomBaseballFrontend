@@ -16,6 +16,9 @@ import { Game } from "./models/game.model";
     private loadedGameState: BehaviorSubject<Game> = new BehaviorSubject<Game>(null);
     private rankedScorecardsState: BehaviorSubject<Scorecard[]> = new BehaviorSubject<Scorecard[]>([]);
 
+    private backupScorecards: Scorecard[] = [];
+    private readonly MAX_BACKUP: number = 10;
+
     constructor(
         private gamesApi: GamesApi,
         private scorecardsService: ScorecardsService
@@ -100,7 +103,7 @@ import { Game } from "./models/game.model";
             });
     }
 
-    public updateScorecardForLoadedGame(scorecardId: number, bases: number, strikes: number): Promise<void> {
+    public updateScorecardForLoadedGame(scorecardId: number, bases: number, strikes: number, skipBackup: boolean = false): Promise<void> {
         const loadedGame = this.getLoadedGameState().getValue();
         return loadedGame && this.scorecardsService.updateScorecard(
             loadedGame.team.id, 
@@ -113,6 +116,20 @@ import { Game } from "./models/game.model";
                 ...loadedGame,
                 scorecards: loadedGame.scorecards.map(scorecard => {
                     if (scorecard.id === scorecardId) {
+
+                        if (!skipBackup) {
+                            // Backup this scorecard state in the list of changes.
+                            this.backupScorecards.push({
+                                id: scorecard.id,
+                                bases: scorecard.bases,
+                                strikes: scorecard.strikes
+                            });
+                            // Make sure the backup list doesn't grow too large.
+                            if (this.backupScorecards.length > this.MAX_BACKUP) {
+                                this.backupScorecards.shift();
+                            }
+                        }
+
                         return {
                             ...scorecard,
                             bases,
@@ -123,6 +140,11 @@ import { Game } from "./models/game.model";
                 })
             });
         });
+    }
+
+    public undoLastScorecardUpdate(): Promise<void> {
+        const toRestore: Scorecard = this.backupScorecards.pop();
+        return toRestore && this.updateScorecardForLoadedGame(toRestore.id, toRestore.bases, toRestore.strikes, true);
     }
 
     public getRankColor(rank: number): string {

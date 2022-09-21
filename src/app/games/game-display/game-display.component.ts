@@ -26,11 +26,19 @@ export class GameDisplayComponent implements OnInit, OnDestroy {
 
     private deleteLink: HeaderLink = {
         labelHtml: '<span class="material-symbols-outlined">delete</span>',
-        priority: 10,
+        priority: 9,
         onClick: () => {
             this.deleteGame();
         }
     };
+
+    private undoLink: HeaderLink = {
+        labelHtml: '<span class="material-symbols-outlined">undo</span>',
+        priority: 10,
+        onClick: () => {
+            this.gamesService.undoLastScorecardUpdate();
+        }
+    }
 
     constructor(
         private route: ActivatedRoute,
@@ -42,6 +50,7 @@ export class GameDisplayComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.headerService.addLink(this.deleteLink);
+        this.headerService.addLink(this.undoLink);
 
         this.route.params.subscribe(async (params: Params) => {
             try {
@@ -63,6 +72,7 @@ export class GameDisplayComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.headerService.removeLink(this.deleteLink);
+        this.headerService.removeLink(this.undoLink);
         this.gameSub && this.gameSub.unsubscribe();
     }
 
