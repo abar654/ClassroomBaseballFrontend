@@ -39,7 +39,6 @@ app-root {
 }
 
 .summary-container {
-    width: calc(360px - 1.6rem);
     min-height: calc(200px - 1.6rem);
     padding: 0.8rem;
 }

@@ -1,7 +1,6 @@
 .teams-list-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
     gap: 1rem;
     margin: 1rem;
 }
@@ -21,6 +20,7 @@ p {
 @media (max-width: 600px) {
 
     .teams-list-container {
+        display: flex;
         flex-direction: column;
     }
 
