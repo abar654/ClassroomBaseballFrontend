@@ -2,14 +2,14 @@
     <app-loading-spinner></app-loading-spinner>
 </div>
 
-<div class="game-display" *ngIf="gameData">
+<div class="game-display fit-screen" *ngIf="gameData">
 
-    <div class="game-display-header">
+    <div class="dashboard-header">
 
-        <div class="header-display">
-            <h1>{{ gameData.team && gameData.team.name }}</h1>
-            <img class="header-logo" src="https://www.pesis.fi/wp-content/uploads/2020/12/MAIN-LOGO-WHITE-BACKGROUND-BASEBALL-FINLAND-PNG.png" alt="">
-        </div>
+        <img 
+            class="dashboard-header-logo" 
+            src="/assets/images/cb-logo-blue.svg"
+            alt="Classroom Baseball Logo">
 
         <div>
             <input 
@@ -26,7 +26,7 @@
 
     </div>
 
-    <div id="panel-container">
+    <div class="dashboard-panel">
         <app-game-leaderboard ></app-game-leaderboard>
     </div>
 

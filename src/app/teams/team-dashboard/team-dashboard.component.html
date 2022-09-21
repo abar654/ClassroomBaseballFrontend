@@ -2,12 +2,12 @@
     <app-loading-spinner></app-loading-spinner>
 </div>
 
-<div class="dashboard fit-screen" *ngIf="teamData">
+<div class="team-dashboard fit-screen" *ngIf="teamData">
 
-    <div id="dashboard-header">
+    <div class="dashboard-header">
         <div class="header-display">
             <img 
-                class="header-logo" 
+                class="dashboard-header-logo" 
                 src="/assets/images/cb-logo-blue.svg"
                 alt="Classroom Baseball Logo">
             <button 
@@ -22,16 +22,16 @@
         <button class="header-button summary-container" type="button" (click)="startNewGame()">Start New Game</button>
     </div>
 
-    <div id="dashboard-summary" class="panel-container">
+    <div id="dashboard-summary" class="dashboard-panel">
         <h2 (click)="continueMostRecentGame()">Most Recent Game</h2>
         <app-game-summary class="scroll-content"></app-game-summary>
     </div>
 
-    <div id="dashboard-stats" class="panel-container">
+    <div id="dashboard-stats" class="dashboard-panel">
         <h2>Last week's stats</h2>
     </div>
 
-    <div id="dashboard-list" class="panel-container">
+    <div id="dashboard-list" class="dashboard-panel">
         <h2>Recent games</h2>
         <app-game-list [games]="teamData.games" class="scroll-content"></app-game-list>
     </div>

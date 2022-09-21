@@ -1,20 +1,11 @@
 .game-display {
-    height: 100%;
     display: grid;
     grid-template-columns: 1fr 8fr 1fr;
     grid-template-rows: auto 1fr;
     grid-template-areas: 
         "header header header"
         ". center .";
-}
-
-.game-display-header {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    justify-items: center;
-    align-items: center;
-    background-color: #DDDDDD;
-    grid-area: header;
+    background-color: var(--secondary);
 }
 
 .header-display {
@@ -24,12 +15,6 @@
     padding: 10px;
 }
 
-.header-logo {
-    height: 100px;
-}
-
-#panel-container {
+.dashboard-panel {
     grid-area: center;
-    background-color: #333333;
-    height: 100%;
 }
