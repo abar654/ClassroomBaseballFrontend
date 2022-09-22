@@ -94,21 +94,23 @@ export class TeamFormComponent implements OnInit, OnDestroy {
     }
 
     editPlayer(player: Player) {
-        const editingPlayer = this.getEditingPlayer();
+        if (!this.isEditingPlayer(player.id)) {
+            const editingPlayer = this.getEditingPlayer();
 
-        // If a player was being edited but was not saved then revert it.
-        if (editingPlayer) {
-            editingPlayer.name = this.editingPlayerOriginal.name;
-            editingPlayer.color = this.editingPlayerOriginal.color;
+            // If a player was being edited but was not saved then revert it.
+            if (editingPlayer) {
+                editingPlayer.name = this.editingPlayerOriginal.name;
+                editingPlayer.color = this.editingPlayerOriginal.color;
+            }
+    
+            // If team name was being edited but not saved then revert it.
+            if (this.isEditingTeamName()) {
+                this.nameInputValue = this.teamData.name;
+            }
+    
+            this.editingPlayerId = player.id;
+            this.editingPlayerOriginal = JSON.parse(JSON.stringify(player)); // Deep copy data object
         }
-
-        // If team name was being edited but not saved then revert it.
-        if (this.isEditingTeamName()) {
-            this.nameInputValue = this.teamData.name;
-        }
-
-        this.editingPlayerId = player.id;
-        this.editingPlayerOriginal = JSON.parse(JSON.stringify(player)); // Deep copy data object
     }
 
     async saveEditingPlayer() {
