@@ -1,45 +1,38 @@
 .leaderboard {
     display: grid;
-    grid-template-columns: auto auto auto auto;
-    grid-template-rows: auto;
-    gap: 10px 10px;
+    grid-template-columns: auto auto 2rem auto auto;
+    justify-items: center;
+    align-items: center;
     padding: 10px;
 }
 
-.leaderboard * {
-    background-color: #ffffff;
+.player-rank {
+    justify-self: start;
+    margin-left: 0.5rem;
+    font-family: var(--primary-font-family);
+    font-size: 1rem;
 }
 
-.column-heading {
-    font-size: 30px;
+.player-name {
+    justify-self: start;
+    font-family: var(--secondary-font-family);
+    color: var(--secondary-dark);
+    text-transform: uppercase;
 }
 
-.player-details {
+.base-logo, .strike-logo {
+    height: 1.5rem;
+    margin: 2px;
+    cursor: pointer;
+}
+
+.player-bases, .player-strikes {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-.player-logo {
-    height: 50px;
-}
-
-.player-bases {
-    place-self: center;
-}
-
-.base-logo {
-    height: 50px;
-}
-
-.player-strikes {
-    place-self: center;
-}
-
-.strike-logo {
-    height: 50px;
+    align-items: center;
+    justify-self: end;
+    margin-right: 0.5rem;
 }
 
 .inactive-logo {
-    filter: grayscale(100%);
+    opacity: 25%;
 }

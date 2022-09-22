@@ -6,7 +6,8 @@ import { Component, Input } from "@angular/core";
 
 @Component({
     selector: 'app-player-avatar',
-    templateUrl: './player-avatar.component.html'
+    templateUrl: './player-avatar.component.html',
+    styleUrls: ['./player-avatar.component.css']
 })
 export class PlayerAvatarComponent {
 

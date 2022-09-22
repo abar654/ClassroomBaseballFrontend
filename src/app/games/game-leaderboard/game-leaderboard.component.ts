@@ -12,7 +12,6 @@ import { Game } from "../models/game.model";
     selector: 'app-game-leaderboard',
     templateUrl: './game-leaderboard.component.html',
     styleUrls: ['./game-leaderboard.component.css']
-
 })
 export class GameLeaderboardComponent implements OnInit, OnDestroy {
 
@@ -39,7 +38,21 @@ export class GameLeaderboardComponent implements OnInit, OnDestroy {
         this.scoresSub && this.scoresSub.unsubscribe();
     }
 
-    updateScorecard(scorecard: Scorecard, bases: number, strikes: number) {
+    setBases(scorecard: Scorecard, bases: number): void {
+        if (scorecard.bases === bases) {
+            bases--;
+        }
+        this.updateScorecard(scorecard, bases, scorecard.strikes);
+    }
+
+    setStrikes(scorecard: Scorecard, strikes: number): void {
+        if (scorecard.strikes === strikes) {
+            strikes--;
+        }
+        this.updateScorecard(scorecard, scorecard.bases, strikes);
+    }
+
+    updateScorecard(scorecard: Scorecard, bases: number, strikes: number): void {
         if (scorecard.id) {
             this.gamesService.updateScorecardForLoadedGame(scorecard.id, bases, strikes)
                 .catch(error => {
@@ -51,6 +64,10 @@ export class GameLeaderboardComponent implements OnInit, OnDestroy {
                     console.log("GameLeaderboardComponent - updateScorecard - create - error: ", error);
                 });
         }
+    }
+
+    getRankColor(rank: number): string {
+        return this.gamesService.getRankColor(rank);
     }
 
 }
