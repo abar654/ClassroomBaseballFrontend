@@ -18,6 +18,6 @@ export class PlayerAvatarComponent {
     name: string;
 
     @Input()
-    height: string;
+    heightPx: number;
     
 }

@@ -3,7 +3,7 @@
     <ng-container *ngFor="let scorecard of rankedScorecards; let i = index">
         <div class="player-rank" [ngStyle]="{ color: getRankColor(i+1) }">{{ i < 10 ? i + 1 : '' }}</div>
         <div class="player-name">{{ scorecard.player.name }}</div>
-        <app-player-avatar [name]="scorecard.player.name" [color]="scorecard.player.color" height="1.5rem"></app-player-avatar>
+        <app-player-avatar [name]="scorecard.player.name" [color]="scorecard.player.color" [heightPx]="50"></app-player-avatar>
         <div class="player-bases">
             <img 
                 *ngFor="let i of [4, 3, 2, 1]"

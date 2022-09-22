@@ -1,4 +1,5 @@
 .game-display {
+    height: 100%;
     display: grid;
     grid-template-columns: 1fr 8fr 1fr;
     grid-template-rows: auto 1fr;
@@ -52,4 +53,21 @@ h1 {
     font-family: var(--primary-font-family);
     font-size: 1rem;
     font-weight: normal;
+}
+
+@media (max-width: 950px) {
+
+    .game-display {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .dashboard-panel {
+        margin-top: 0px;
+        margin-bottom: 1.2rem;
+        margin-left: 1.2rem;
+        margin-right: 1.2rem;
+    }
+
 }

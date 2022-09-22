@@ -36,3 +36,18 @@
 .inactive-logo {
     opacity: 25%;
 }
+
+@media (max-width: 950px) {
+
+    .leaderboard {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 0.125rem;
+    }
+
+    .leaderboard * {
+        margin: 2px;
+    }
+
+}
