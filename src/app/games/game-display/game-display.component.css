@@ -24,7 +24,7 @@
 }
 
 #game-name {
-    width:fit-content;
+    width: 12rem;
     border-style: none;
     font-family: var(--primary-font-family);
     font-size: 1rem;
@@ -68,6 +68,10 @@ h1 {
         margin-bottom: 1.2rem;
         margin-left: 1.2rem;
         margin-right: 1.2rem;
+    }
+
+    #game-name {
+        max-width: 10rem;
     }
 
 }
