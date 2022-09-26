@@ -1,6 +1,6 @@
 <div id="control-grid">
     <div class="player-control" *ngFor="let scorecard of scorecards; let i = index">
-        <div class="player-name">{{ scorecard.player.name.substring(0, 12) }}</div>
+        <div class="player-name">{{ scorecard.player && scorecard.player.name && scorecard.player.name.substring(0, 12) }}</div>
         <app-player-avatar [name]="scorecard.player.name" [color]="scorecard.player.color" [heightPx]="40"></app-player-avatar>
         <div class="player-score">
             <div class="player-bases">

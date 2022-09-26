@@ -1,5 +1,8 @@
-<app-header></app-header>
-<div id="content" class="fit-screen">
+<app-header #header></app-header>
+<div 
+    id="content" 
+    class="fit-screen" 
+    [ngClass]="{ 'has-footer': header.hasFooter }">
     <router-outlet></router-outlet>
 </div>
 <app-popup></app-popup>

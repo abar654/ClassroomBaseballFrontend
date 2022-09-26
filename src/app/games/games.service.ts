@@ -204,7 +204,10 @@ import { Game } from "./models/game.model";
         // Broadcast the array of alphabetical scorecards
         this.alphabeticalScorecardsState.next(
             Object.values(scorecardsByPlayerId).sort((a, b) => {
-                return a.player.name.localeCompare(b.player.name);
+                if (a && a.player && a.player.name) {
+                    return a.player.name.localeCompare(b.player.name);
+                }
+                return -1;
             })
         );
 

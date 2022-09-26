@@ -29,6 +29,7 @@ export class GameDisplayComponent implements OnInit, OnDestroy {
     private deleteLink: HeaderLink = {
         labelHtml: '<span class="material-symbols-outlined">delete</span>',
         priority: 8,
+        alwaysVisible: true,
         onClick: () => {
             this.deleteGame();
         }
@@ -37,6 +38,7 @@ export class GameDisplayComponent implements OnInit, OnDestroy {
     private controlLink: HeaderLink = {
         labelHtml: '<span class="material-symbols-outlined">sports_esports</span>',
         priority: 9,
+        alwaysVisible: true,
         onClick: () => {
             this.isControlMode = true;
             this.headerService.removeLink(this.controlLink);
@@ -47,6 +49,7 @@ export class GameDisplayComponent implements OnInit, OnDestroy {
     private displayLink: HeaderLink = {
         labelHtml: '<span class="material-symbols-outlined">nest_display</span>',
         priority: 9,
+        alwaysVisible: true,
         onClick: () => {
             this.isControlMode = false;
             this.headerService.removeLink(this.displayLink);
@@ -57,6 +60,7 @@ export class GameDisplayComponent implements OnInit, OnDestroy {
     private undoLink: HeaderLink = {
         labelHtml: '<span class="material-symbols-outlined">undo</span>',
         priority: 10,
+        alwaysVisible: true,
         onClick: () => {
             this.gamesService.undoLastScorecardUpdate();
         }

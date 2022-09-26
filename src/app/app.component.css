@@ -1,3 +1,7 @@
 #content {
     overflow: auto;
 }
+
+.has-footer {
+    margin-bottom: var(--header-height);
+}

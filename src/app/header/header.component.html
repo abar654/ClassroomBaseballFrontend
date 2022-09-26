@@ -9,17 +9,24 @@
         <a id="header-title">{{ title }}</a>
     </div>
 
-    <div id="nav-right">
-        <a *ngFor="let link of links" (click)="onLinkClick(link)" [innerHTML]="link.labelHtml"></a>
+    <div *ngIf="navLinks.length > 0" id="nav-links">
+        <a 
+            *ngFor="let link of navLinks" 
+            class="nav-link"
+            (click)="onLinkClick(link)" 
+            [innerHTML]="link.labelHtml"></a>
     </div>
 
-    <div id="menu-button">
+    <div *ngIf="menuLinks.length > 0" id="menu-button">
         <a (click)="toggleCollapse()">
             <span class="material-symbols-outlined">menu</span>
         </a>
     </div>
 </nav>
 
-<div *ngIf="!isCollapsed" id="menu-panel">
-    <a *ngFor="let link of links" (click)="onLinkClick(link)" [innerHTML]="link.labelHtml"></a>
+<div *ngIf="!isMenuCollapsed" id="menu-panel">
+    <a 
+        *ngFor="let link of menuLinks" 
+        (click)="onLinkClick(link)" 
+        [innerHTML]="link.labelHtml"></a>
 </div>

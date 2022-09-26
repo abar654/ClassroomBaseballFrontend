@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { HeaderLink } from './header-link.model';
 import { HeaderService } from './header.service';
@@ -14,10 +14,22 @@ import { HeaderService } from './header.service';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 
-    title: string = "Classroom Baseball";
-    links: HeaderLink[] = [];
-    isCollapsed: boolean = true;
+    readonly SMALL_SCREEN_LIMIT_PX: number = 600;
+
     subscriptions: Subscription[] = [];
+
+    title: string = "Classroom Baseball";
+
+    navLinks: HeaderLink[] = [];
+    menuLinks: HeaderLink[] = [];
+
+    hasFooter: boolean = false;
+    isMenuCollapsed: boolean = true;
+
+    @HostListener('window:resize')
+    onResize() {
+        this.refreshLinks(this.headerService.getLinksState().getValue());
+    }
 
     constructor(
         private headerService: HeaderService
@@ -29,7 +41,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
                 this.title = title;
             }),
             this.headerService.getLinksState().subscribe((links: HeaderLink[]) => {
-                this.links = links;
+                this.refreshLinks(links);
             })
         ];
     }
@@ -42,11 +54,23 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     onLinkClick(link: HeaderLink) {
         link.onClick();
-        this.isCollapsed = true;
+        this.isMenuCollapsed = true;
     }
 
     toggleCollapse(): void {
-        this.isCollapsed = !this.isCollapsed;
+        this.isMenuCollapsed = !this.isMenuCollapsed;
+    }
+
+    refreshLinks(links: HeaderLink[]): void {
+        if (window.innerWidth > this.SMALL_SCREEN_LIMIT_PX) {
+            this.navLinks = links;
+            this.menuLinks = [];
+            this.hasFooter = false;
+        } else {
+            this.navLinks = links.filter(link => link.alwaysVisible);
+            this.menuLinks = links.filter(link => !link.alwaysVisible);
+            this.hasFooter = this.navLinks.length > 0 ? true : false;
+        }
     }
 
 }

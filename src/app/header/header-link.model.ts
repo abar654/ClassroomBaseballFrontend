@@ -5,5 +5,6 @@
 export interface HeaderLink {
     labelHtml: string,
     priority: number,
+    alwaysVisible?: boolean,
     onClick: () => void
 }
