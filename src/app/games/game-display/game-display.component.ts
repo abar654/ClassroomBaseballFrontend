@@ -22,14 +22,35 @@ export class GameDisplayComponent implements OnInit, OnDestroy {
     gameData: Game = null;
     nameInputValue: string = "";
     nameFocus: boolean = false;
+    isControlMode: boolean = false;
 
     private gameSub: Subscription = null;
 
     private deleteLink: HeaderLink = {
         labelHtml: '<span class="material-symbols-outlined">delete</span>',
-        priority: 9,
+        priority: 8,
         onClick: () => {
             this.deleteGame();
+        }
+    };
+
+    private controlLink: HeaderLink = {
+        labelHtml: '<span class="material-symbols-outlined">sports_esports</span>',
+        priority: 9,
+        onClick: () => {
+            this.isControlMode = true;
+            this.headerService.removeLink(this.controlLink);
+            this.headerService.addLink(this.displayLink);
+        }
+    };
+
+    private displayLink: HeaderLink = {
+        labelHtml: '<span class="material-symbols-outlined">nest_display</span>',
+        priority: 9,
+        onClick: () => {
+            this.isControlMode = false;
+            this.headerService.removeLink(this.displayLink);
+            this.headerService.addLink(this.controlLink);
         }
     };
 
@@ -59,6 +80,7 @@ export class GameDisplayComponent implements OnInit, OnDestroy {
                         this.nameInputValue = game.name;
 
                         this.headerService.addLink(this.deleteLink);
+                        this.headerService.addLink(this.isControlMode ? this.displayLink : this.controlLink);
                         this.headerService.addLink(this.undoLink);
 
                         if (game.team) {
@@ -77,6 +99,8 @@ export class GameDisplayComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.headerService.removeLink(this.deleteLink);
+        this.headerService.removeLink(this.controlLink);
+        this.headerService.removeLink(this.displayLink);
         this.headerService.removeLink(this.undoLink);
         this.gameSub && this.gameSub.unsubscribe();
     }

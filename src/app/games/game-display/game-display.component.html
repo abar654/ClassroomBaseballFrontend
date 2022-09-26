@@ -4,7 +4,7 @@
 
 <div class="game-display fit-screen" *ngIf="gameData">
 
-    <div class="dashboard-header">
+    <div *ngIf="!isControlMode" class="dashboard-header">
 
         <img 
             class="dashboard-header-logo" 
@@ -32,8 +32,10 @@
 
     </div>
 
-    <div class="dashboard-panel scroll-content">
-        <app-game-leaderboard ></app-game-leaderboard>
+    <div *ngIf="!isControlMode" class="dashboard-panel scroll-content">
+        <app-game-leaderboard></app-game-leaderboard>
     </div>
+
+    <app-game-control *ngIf="isControlMode" class="control-panel scroll-content"></app-game-control>
 
 </div>

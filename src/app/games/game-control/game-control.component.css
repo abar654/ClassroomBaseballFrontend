@@ -1,0 +1,66 @@
+#control-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin: 1rem
+}
+
+.player-control {
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    align-items: center;
+    border-style: none;
+    border-radius: 6px;
+    box-shadow: var(--shadow);
+    background-color: var(--primary);
+    overflow: hidden;
+}
+
+.player-name {
+    font-size: 0.75rem;
+    font-family: var(--secondary-font-family);
+    color: var(--secondary-dark);
+    text-align: center;
+    white-space: nowrap;
+    text-transform: uppercase;
+}
+
+.player-score {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.base-logo, .strike-logo {
+    height: 1rem;
+    margin: 2px;
+    cursor: pointer;
+}
+
+.base-count, .strike-count {
+    font-family: var(--primary-font-family);
+    cursor: pointer;
+}
+
+.player-bases, .player-strikes {
+    display: flex;
+    align-items: center;
+    gap: 0.125rem;
+}
+
+@media (max-width: 600px) {
+
+    #control-grid {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 0.5rem;
+        margin: 0.5rem
+    }
+
+    .player-control {
+        padding: 0.25rem;
+    }
+
+}

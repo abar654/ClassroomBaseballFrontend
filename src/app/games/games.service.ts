@@ -15,6 +15,7 @@ import { Game } from "./models/game.model";
 
     private loadedGameState: BehaviorSubject<Game> = new BehaviorSubject<Game>(null);
     private rankedScorecardsState: BehaviorSubject<Scorecard[]> = new BehaviorSubject<Scorecard[]>([]);
+    private alphabeticalScorecardsState: BehaviorSubject<Scorecard[]> = new BehaviorSubject<Scorecard[]>([]);
 
     private backupScorecards: Scorecard[] = [];
     private readonly MAX_BACKUP: number = 25;
@@ -24,7 +25,7 @@ import { Game } from "./models/game.model";
         private scorecardsService: ScorecardsService
     ) {
         this.loadedGameState.subscribe(() => {
-            this.generateRankedScorecards();
+            this.generateScorecardLists();
         });
     }
 
@@ -34,6 +35,10 @@ import { Game } from "./models/game.model";
 
     public getRankedScorecardsState(): BehaviorSubject<Scorecard[]> {
         return this.rankedScorecardsState;
+    }
+
+    public getAlphabeticalScorecardsState(): BehaviorSubject<Scorecard[]> {
+        return this.alphabeticalScorecardsState;
     }
 
     public loadGame(teamId: number, gameId: number): Promise<Game> {
@@ -160,7 +165,7 @@ import { Game } from "./models/game.model";
         }
     }
 
-    private generateRankedScorecards() {
+    private generateScorecardLists() {
         const loadedGame = this.getLoadedGameState().getValue();
 
         //Set up a scorecard for each player
@@ -195,6 +200,14 @@ import { Game } from "./models/game.model";
                 return b.bases - a.bases;
             })
         );
+
+        // Broadcast the array of alphabetical scorecards
+        this.alphabeticalScorecardsState.next(
+            Object.values(scorecardsByPlayerId).sort((a, b) => {
+                return a.player.name.localeCompare(b.player.name);
+            })
+        );
+
     }
 
  }

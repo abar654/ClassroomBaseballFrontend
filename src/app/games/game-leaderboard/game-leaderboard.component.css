@@ -33,6 +33,10 @@
     margin-right: 0.5rem;
 }
 
+.message-text {
+    grid-column: 1 / -1;
+}
+
 .inactive-logo {
     opacity: 25%;
 }

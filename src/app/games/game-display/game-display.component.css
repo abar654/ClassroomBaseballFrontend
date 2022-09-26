@@ -13,7 +13,7 @@
     margin: 0.5rem
 }
 
-.dashboard-panel {
+.dashboard-panel, .control-panel {
     grid-area: center;
 }
 
