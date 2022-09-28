@@ -1,5 +1,5 @@
 <ng-container *ngIf="rankedWeekScores.length > 0">
-    <app-score-table [rankedScorecards]="rankedWeekScores"></app-score-table>
+    <app-score-table [rankedScorecards]="rankedWeekScores" class="scroll-content"></app-score-table>
 </ng-container>
 <ng-container *ngIf="rankedWeekScores.length === 0">
     <h3 class="message-text">There are no players to display yet...</h3>

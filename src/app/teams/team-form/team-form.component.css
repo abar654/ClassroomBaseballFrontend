@@ -44,6 +44,7 @@
 
 .player-name {
     width: 100%;
+    min-width: 0px;
     border-style: none;
     font-family: var(--secondary-font-family);
     font-size: 0.6rem;

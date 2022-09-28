@@ -13,8 +13,9 @@
 }
 
 .player-name {
-    justify-self: start;
     margin-left: 0.5rem;
+    overflow: hidden;
+    justify-self: start;
     font-family: var(--secondary-font-family);
     font-size: 0.75rem;
     color: var(--secondary-dark);
@@ -33,4 +34,5 @@
     gap: 0.125rem;
     font-family: var(--primary-font-family);
     font-size: 0.65rem;
+    background-color: var(--primary);
 }
