@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
-import { GamesService } from "src/app/games/games.service";
 import { Scorecard } from "src/app/scorecards/models/scorecard.model";
 import { TeamStatisticsService } from "./team-statistics.service";
 
@@ -20,8 +19,7 @@ export class TeamStatisticsComponent implements OnInit, OnDestroy {
     private weekScoresStateSub: Subscription;
 
     constructor(
-        private teamStatisticsService: TeamStatisticsService,
-        private gamesService: GamesService
+        private teamStatisticsService: TeamStatisticsService
     ){}
 
     ngOnInit(): void {
@@ -35,11 +33,6 @@ export class TeamStatisticsComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.weekScoresStateSub && this.weekScoresStateSub.unsubscribe();
-    }
-
-    // TO REMOVE WHEN USING GAMESUMMARYCOMPONENT
-    getRankColor(rank: number): string {
-        return this.gamesService.getRankColor(rank);
     }
 
 }

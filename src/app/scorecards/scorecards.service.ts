@@ -44,4 +44,17 @@ import { Scorecard } from "./models/scorecard.model";
             .toPromise();
     }
 
+    public getRankColor(rank: number): string {
+        switch (rank) {
+            case 1:
+                return 'var(--gold)';
+            case 2:
+                return 'var(--silver)';
+            case 3:
+                return 'var(--bronze)';
+            default:
+                return 'var(--black)';
+        }
+    }
+
  }

@@ -3,6 +3,7 @@ import { FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { GameDisplayComponent } from "../games/game-display/game-display.component";
 import { GamesModule } from "../games/games.module";
+import { ScorecardsModule } from "../scorecards/scorecards.module";
 import { SharedModule } from "../shared/shared.module";
 import { StatisticsApi } from "./apis/statistics.api";
 import { TeamsApi } from "./apis/teams.api";
@@ -35,6 +36,7 @@ const teamsRoutes = [
     imports: [
         SharedModule,
         GamesModule,
+        ScorecardsModule,
         FormsModule,
         RouterModule.forChild(teamsRoutes)
     ],

@@ -24,7 +24,7 @@
 
     <div id="dashboard-summary" class="dashboard-panel">
         <h2 (click)="continueMostRecentGame()">Most Recent Game</h2>
-        <app-game-summary class="scroll-content"></app-game-summary>
+        <app-score-table [rankedScorecards]="recentRankedScorecards" class="scroll-content"></app-score-table>
     </div>
 
     <div id="dashboard-stats" class="dashboard-panel">

@@ -5,6 +5,7 @@ import { Subscription } from "rxjs";
 import { GamesService } from "src/app/games/games.service";
 import { Game } from "src/app/games/models/game.model";
 import { HeaderService } from "src/app/header/header.service";
+import { Scorecard } from "src/app/scorecards/models/scorecard.model";
 import { Team } from "../models/team.model";
 import { TeamsService } from "../teams.service";
 
@@ -20,9 +21,11 @@ import { TeamsService } from "../teams.service";
 export class TeamDashboardComponent implements OnInit, OnDestroy {
 
     teamData: Team = null;
+    recentRankedScorecards: Scorecard[] = [];
     isEditing: boolean = false;
 
     private currentTeamStateSub: Subscription;
+    private recentScoresSub: Subscription;
 
     constructor(
         private route: ActivatedRoute,
@@ -67,11 +70,16 @@ export class TeamDashboardComponent implements OnInit, OnDestroy {
                 }
 
             });
+
+            this.recentScoresSub = this.gamesService.getRankedScorecardsState().subscribe((scorecards: Scorecard[]) => {
+                this.recentRankedScorecards = scorecards;
+            });
         });
     }
 
     ngOnDestroy(): void {
         this.currentTeamStateSub && this.currentTeamStateSub.unsubscribe();
+        this.recentScoresSub && this.recentScoresSub.unsubscribe();
     }
 
     async startNewGame() {

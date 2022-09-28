@@ -6,18 +6,14 @@ import { GameControlComponent } from "./game-control/game-control.component";
 import { GameDisplayComponent } from "./game-display/game-display.component";
 import { GameLeaderboardComponent } from "./game-leaderboard/game-leaderboard.component";
 import { GameListComponent } from "./game-list/game-list.component";
-import { GameSummaryComponent } from "./game-summary/game-summary.component";
 import { PlayerAvatarComponent } from "./player-avatar/player-avatar.component";
 
 /**
  * A module for displaying and managing data about games.
  */
 
-// TODO: Consider making this lazy load only when the TeamDashboard is loaded
-
 @NgModule({
     declarations: [
-        GameSummaryComponent,
         GameDisplayComponent,
         GameLeaderboardComponent,
         GameListComponent,
@@ -32,7 +28,6 @@ import { PlayerAvatarComponent } from "./player-avatar/player-avatar.component";
     providers: [
     ],
     exports: [
-        GameSummaryComponent,
         GameDisplayComponent,
         GameListComponent
     ]
