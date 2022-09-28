@@ -1,0 +1,28 @@
+<!-- Most of this to be removed when using GameSummaryComponent-->
+<ng-container *ngIf="rankedWeekScores.length > 0">
+    <div class="week-scores-list">
+        <div class="grid-line"></div>
+        <ng-container *ngFor="let weekScore of rankedWeekScores; let i = index">
+            <div class="player-rank" [ngStyle]="{ color: getRankColor(i+1) }">{{ i < 3 ? i + 1 : '' }}</div>
+            <div class="player-name">{{ weekScore.player.name }}</div>
+            <div class="player-bases">
+                <img 
+                    class="base-logo"
+                    src="/assets/images/ball-icon.svg" 
+                    alt="Base logo">
+                <div>{{ weekScore.bases }}</div>
+            </div>
+            <div class="player-strikes">
+                <img 
+                    class="strike-logo"
+                    src="/assets/images/strike-icon.svg" 
+                    alt="Strike logo">
+                <div>{{ weekScore.strikes }}</div>
+            </div>
+            <div class="grid-line"></div>
+        </ng-container>
+    </div>
+</ng-container>
+<ng-container *ngIf="rankedWeekScores.length === 0">
+    <h3 class="message-text">There are no players to display yet...</h3>
+</ng-container>

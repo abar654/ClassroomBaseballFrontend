@@ -4,9 +4,12 @@ import { RouterModule } from "@angular/router";
 import { GameDisplayComponent } from "../games/game-display/game-display.component";
 import { GamesModule } from "../games/games.module";
 import { SharedModule } from "../shared/shared.module";
+import { StatisticsApi } from "./apis/statistics.api";
 import { TeamsApi } from "./apis/teams.api";
 import { TeamDashboardComponent } from "./team-dashboard/team-dashboard.component";
 import { TeamFormComponent } from "./team-form/team-form.component";
+import { TeamStatisticsComponent } from "./team-statistics/team-statistics.component";
+import { TeamStatisticsService } from "./team-statistics/team-statistics.service";
 import { TeamSummaryComponent } from "./team-summary/team-summary.component";
 import { TeamsListComponent } from "./teams-list/teams-list.component";
 import { TeamsService } from "./teams.service";
@@ -23,6 +26,7 @@ const teamsRoutes = [
 
 @NgModule({
     declarations: [
+        TeamStatisticsComponent,
         TeamsListComponent,
         TeamDashboardComponent,
         TeamSummaryComponent,
@@ -30,11 +34,13 @@ const teamsRoutes = [
     ],
     imports: [
         SharedModule,
-        GamesModule, // TODO: Consider if this could be worth lazy loading.
+        GamesModule,
         FormsModule,
         RouterModule.forChild(teamsRoutes)
     ],
     providers: [
+        TeamStatisticsService,
+        StatisticsApi,
         TeamsService,
         TeamsApi
     ],

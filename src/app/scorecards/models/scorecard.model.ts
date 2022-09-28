@@ -6,7 +6,7 @@ import { Player } from "src/app/players/models/player.model";
  */
 
 export interface Scorecard {
-    id: number,
+    id?: number, // Non-existant or null id represents a scorecard that is not saved in the backend.
     bases: number,
     strikes: number,
     game?: Game,
