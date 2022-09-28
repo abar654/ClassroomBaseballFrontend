@@ -150,7 +150,7 @@ h3.message-text {
     background: var(--secondary-dark);
 }
 
-@media (min-width: 600px) {
+@media (min-width: 950px) {
 
     .fit-screen {
         height: calc(100vh - var(--header-height));
