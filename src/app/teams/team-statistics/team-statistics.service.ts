@@ -1,9 +1,15 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
+import { Player } from "src/app/players/models/player.model";
 import { Scorecard } from "src/app/scorecards/models/scorecard.model";
 import { StatisticsApi } from "../apis/statistics.api";
 import { Team } from "../models/team.model";
 import { TeamsService } from "../teams.service";
+
+interface PlayerScore {
+    player: Player,
+    score: number
+}
 
 /**
  * A business logic service for processing and providing various team statistics.
@@ -70,21 +76,14 @@ import { TeamsService } from "../teams.service";
      * Best and fairest is the player with the greatest "bases - strikes" score.
      */
     private getBestAndFairest(weekScores: Scorecard[]): string {
-        let topScore: number = Number.MIN_SAFE_INTEGER;
-        let topNames: string[] = [""];
+        const playerScores: PlayerScore[] = [];
         for (const weekScore of weekScores) {
-            const bfscore = weekScore.bases - weekScore.strikes;
-            if (bfscore > topScore) {
-                topScore = bfscore;
-                topNames = [weekScore.player.name];
-            } else if (bfscore === topScore) {
-                topNames.push(weekScore.player.name);
-            }
+            playerScores.push({
+                player: weekScore.player,
+                score: weekScore.bases - weekScore.strikes
+            });     
         }
-
-        // Return a random player from the top names
-        // (This way if there are ties then all players may get a chance to be displayed)
-        return topNames[Math.floor(Math.random() * topNames.length)];
+        return this.getRandomBestPlayerName(playerScores);
     }
 
     /**
@@ -98,17 +97,30 @@ import { TeamsService } from "../teams.service";
             earlierScores[earlierWeekScore.player.id] = earlierWeekScore.bases - earlierWeekScore.strikes;
         }
 
-        let topScore: number = Number.MIN_SAFE_INTEGER;
-        let topNames: string[] = [""];
+        const playerScores: PlayerScore[] = [];
         for (const weekScore of weekScores) {
             if (earlierScores[weekScore.player.id] !== undefined) {
-                const score = weekScore.bases - weekScore.strikes - earlierScores[weekScore.player.id];
-                if (score > topScore) {
-                    topScore = score;
-                    topNames = [weekScore.player.name];
-                } else if (score === topScore) {
-                    topNames.push(weekScore.player.name);
-                }
+                playerScores.push({
+                    player: weekScore.player,
+                    score: weekScore.bases - weekScore.strikes - earlierScores[weekScore.player.id]
+                });
+            }  
+        }
+        return this.getRandomBestPlayerName(playerScores);
+    }
+
+    /**
+     * Returns a random player name from among the players with the top score
+     */
+    private getRandomBestPlayerName(playerScores: PlayerScore[]): string {
+        let topScore: number = Number.MIN_SAFE_INTEGER;
+        let topNames: string[] = [""];
+        for (const playerScore of playerScores) {
+            if (playerScore.score > topScore) {
+                topScore = playerScore.score;
+                topNames = [playerScore.player.name];
+            } else if (playerScore.score === topScore) {
+                topNames.push(playerScore.player.name);
             }
         }
 
