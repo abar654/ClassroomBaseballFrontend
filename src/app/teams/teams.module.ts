@@ -7,6 +7,7 @@ import { ScorecardsModule } from "../scorecards/scorecards.module";
 import { SharedModule } from "../shared/shared.module";
 import { StatisticsApi } from "./apis/statistics.api";
 import { TeamsApi } from "./apis/teams.api";
+import { TeamAwardComponent } from "./team-award/team-award.component";
 import { TeamDashboardComponent } from "./team-dashboard/team-dashboard.component";
 import { TeamFormComponent } from "./team-form/team-form.component";
 import { TeamStatisticsComponent } from "./team-statistics/team-statistics.component";
@@ -31,7 +32,8 @@ const teamsRoutes = [
         TeamsListComponent,
         TeamDashboardComponent,
         TeamSummaryComponent,
-        TeamFormComponent
+        TeamFormComponent,
+        TeamAwardComponent
     ],
     imports: [
         SharedModule,
