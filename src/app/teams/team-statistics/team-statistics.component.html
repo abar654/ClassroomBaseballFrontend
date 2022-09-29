@@ -1,12 +1,9 @@
 <ng-container *ngIf="rankedWeekScores.length > 0">
     <app-score-table [rankedScorecards]="rankedWeekScores.slice(0,6)" class="scroll-content"></app-score-table>
     <div id="awards-container">
-        <app-team-award 
-            [title]="'The first award'"
-            [recipient]="'Andrew'"></app-team-award>
-        <app-team-award 
-            [title]="'The second award'"
-            [recipient]="'Thomas'"></app-team-award>
+        <app-team-award *ngFor="let award of awards"
+            [title]="award.title"
+            [recipient]="award.recipient"></app-team-award>
     </div>
 </ng-container>
 <ng-container *ngIf="rankedWeekScores.length === 0">
