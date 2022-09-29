@@ -37,7 +37,13 @@ import { TeamsService } from "../teams.service";
                         }));
 
                         this.bestAndFairest.next(this.getBestAndFairest(weekScores));
-                        this.mostImproved.next(this.getMostImproved(weekScores, startTimestamp))
+
+                        this.statisticsApi.getWeekScores(
+                            team.id, 
+                            startTimestamp - this.WEEK_DURATION
+                        ).subscribe((earlierWeekScores: Scorecard[]) => {
+                            this.mostImproved.next(this.getMostImproved(earlierWeekScores, weekScores));
+                        });
                     },
                     (error: any) => {
                         console.log("loadStatistics - error: ", error);
@@ -64,16 +70,51 @@ import { TeamsService } from "../teams.service";
      * Best and fairest is the player with the greatest "bases - strikes" score.
      */
     private getBestAndFairest(weekScores: Scorecard[]): string {
-        return "Thing 1";
+        let topScore: number = Number.MIN_SAFE_INTEGER;
+        let topNames: string[] = [""];
+        for (const weekScore of weekScores) {
+            const bfscore = weekScore.bases - weekScore.strikes;
+            if (bfscore > topScore) {
+                topScore = bfscore;
+                topNames = [weekScore.player.name];
+            } else if (bfscore === topScore) {
+                topNames.push(weekScore.player.name);
+            }
+        }
+
+        // Return a random player from the top names
+        // (This way if there are ties then all players may get a chance to be displayed)
+        return topNames[Math.floor(Math.random() * topNames.length)];
     }
 
     /**
      * Calculates the most improved player and returns their name.
      * Most improved is the player with the greatest increase in their "bases - strikes" score
-     * from 2 weeks ago to last week.
+     * from earlierWeekScores to weekScores.
      */
-    private getMostImproved(weekScores: Scorecard[], lastWeekTimestamp: number): string {
-        return "Thing 2";
+    private getMostImproved(earlierWeekScores: Scorecard[], weekScores: Scorecard[]): string {
+        const earlierScores: { [playerId: number]: number } = {};
+        for (const earlierWeekScore of earlierWeekScores) {
+            earlierScores[earlierWeekScore.player.id] = earlierWeekScore.bases - earlierWeekScore.strikes;
+        }
+
+        let topScore: number = Number.MIN_SAFE_INTEGER;
+        let topNames: string[] = [""];
+        for (const weekScore of weekScores) {
+            if (earlierScores[weekScore.player.id] !== undefined) {
+                const score = weekScore.bases - weekScore.strikes - earlierScores[weekScore.player.id];
+                if (score > topScore) {
+                    topScore = score;
+                    topNames = [weekScore.player.name];
+                } else if (score === topScore) {
+                    topNames.push(weekScore.player.name);
+                }
+            }
+        }
+
+        // Return a random player from the top names
+        // (This way if there are ties then all players may get a chance to be displayed)
+        return topNames[Math.floor(Math.random() * topNames.length)];
     }
 
     /**
