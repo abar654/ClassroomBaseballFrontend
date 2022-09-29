@@ -1,7 +1,9 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { Router } from "@angular/router";
 import { BehaviorSubject, Observable, throwError } from "rxjs";
 import { catchError, tap } from 'rxjs/operators'
+import { environment } from "src/environments/environment";
 
 import { AuthenticationApi } from "./apis/authentication.api";
 import { RegistrationApi } from "./apis/registration.api";
@@ -24,6 +26,7 @@ export class AuthenticationService {
     private authenticationState: BehaviorSubject<AuthenticationData> = new BehaviorSubject<AuthenticationData>(null);
 
     constructor(
+        private router: Router,
         private authenticationApi: AuthenticationApi,
         private registrationApi: RegistrationApi
     ){}
@@ -52,6 +55,9 @@ export class AuthenticationService {
             clearTimeout(this.autoLogoutTimeout);
             this.autoLogoutTimeout = null;      
         }
+
+        //Redirect to logout destination
+        this.router.navigate([environment.logoutRedirect]);
     }
 
     public register(email: string, password: string): Promise<void> {
