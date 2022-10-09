@@ -16,6 +16,11 @@
     --header-height: 1.75rem;
 }
 
+@font-face {
+    font-family:"Varsity Regular";
+    src: url("/assets/fonts/varsity_regular.ttf");
+}
+
 body, html {
     height: 100%;
     margin: 0;
