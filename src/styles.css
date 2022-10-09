@@ -77,7 +77,7 @@ app-root {
     background-color: var(--secondary-extra-dark);
 }
 
-.form-button:disabled {
+.form-button:disabled, .summary-container:disabled {
     background-color: var(--secondary-dark);
     cursor: default;
 }

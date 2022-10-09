@@ -18,7 +18,13 @@
                 Edit team
             </button>
         </div>
-        <button class="header-button summary-container" type="button" (click)="continueMostRecentGame()">Continue Game</button>
+        <button 
+            class="header-button summary-container" 
+            type="button" 
+            (click)="continueMostRecentGame()" 
+            [disabled]="!mostRecentGame">
+            Continue Game
+        </button>
         <button class="header-button summary-container" type="button" (click)="startNewGame()">Start New Game</button>
     </div>
 
