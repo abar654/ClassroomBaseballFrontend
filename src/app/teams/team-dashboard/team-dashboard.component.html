@@ -30,7 +30,8 @@
 
     <div id="dashboard-summary" class="dashboard-panel">
         <h2 (click)="continueMostRecentGame()">Most Recent Game</h2>
-        <app-score-table [rankedScorecards]="recentRankedScorecards" class="scroll-content"></app-score-table>
+        <app-score-table *ngIf="mostRecentGame" [rankedScorecards]="recentRankedScorecards" class="scroll-content"></app-score-table>
+        <h3 *ngIf="!mostRecentGame" class="message-text">There are no games to display yet...</h3>
     </div>
 
     <div id="dashboard-stats" class="dashboard-panel">
