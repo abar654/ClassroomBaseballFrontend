@@ -146,6 +146,10 @@ h3.message-text {
     margin: 0px;
 }
 
+.clickable {
+    cursor: pointer;
+}
+
 .grid-line {
     width: 100%;
     height: 2px;
