@@ -44,7 +44,20 @@ export class TeamStatisticsComponent implements OnInit, OnDestroy {
         this.subscriptions = [
             this.teamStatisticsService.getRankedWeekScoresState().subscribe((weekScores: Scorecard[]) => {
                 if (weekScores != null) {
-                    this.rankedWeekScores = weekScores;
+                    // Check that last week wasn't a week with no scores.
+                    let allZero: boolean = true;
+                    for (const weekScore of weekScores) {
+                        if (weekScore.bases !== 0 || weekScore.strikes !== 0) {
+                            allZero = false;
+                            break;
+                        }
+                    }
+                    if (allZero) {
+                        // There are no statistics to show for the last week
+                        this.rankedWeekScores = [];
+                    } else {
+                        this.rankedWeekScores = weekScores;
+                    }
                 }
             }),
             this.teamStatisticsService.getBestAndFairestState().subscribe((recipient: string) => {
