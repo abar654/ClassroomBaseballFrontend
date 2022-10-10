@@ -25,6 +25,7 @@
     text-align: center;
     white-space: nowrap;
     text-transform: uppercase;
+    cursor: default;
 }
 
 .player-score {
