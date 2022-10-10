@@ -23,8 +23,10 @@
             required
             minlength="6"
         >
+        <div *ngIf="errorMessage" class="message-box">
+            <span class="material-symbols-outlined">error</span>
+            {{ errorMessage }}
+        </div>
         <button class="form-button" type="submit" [disabled]="!loginForm.valid">Let's go!</button>
-
     </div>
-    <p *ngIf="errorMessage">{{ errorMessage }}</p>
 </form>

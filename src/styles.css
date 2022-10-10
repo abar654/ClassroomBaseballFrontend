@@ -90,6 +90,22 @@ app-root {
     color: var(--black);
 }
 
+.message-box {
+    width: 100%;
+    padding: 0.2rem 0.3rem;
+    display: flex;
+    gap: 0.3rem;
+    align-items: center;
+    font-family: var(--secondary-font-family);
+    font-size: 0.75rem;
+    font-weight: normal;
+    color: var(--secondary-dark);
+    background-color: var(--primary-dark);
+    border-style: none;
+    border-radius: 6px;
+    box-shadow: var(--shadow);
+}
+
 .modal-button, .icon-button, .text-button {
     background-color: transparent;
     border-style: none;
