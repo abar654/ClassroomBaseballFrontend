@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiEndpoint: 'http://classroombaseball.net/api',
+  apiEndpoint: 'https://classroombaseball.net/api',
   authenticatedRedirect: '/teams',
   logoutRedirect: ''
 };
