@@ -21,7 +21,7 @@
             id="password"
             name="password"
             required
-            minlength="6"
+            [minlength]="MIN_PASSWORD_LENGTH"
         >
         <input
             class="form-control form-text-input"
@@ -31,12 +31,12 @@
             id="checkPassword"
             name="checkPassword"
             required
-            minlength="6"
+            [minlength]="MIN_PASSWORD_LENGTH"
         >
         <div *ngIf="errorMessage" class="message-box">
             <span class="material-symbols-outlined">error</span>
             {{ errorMessage }}
         </div>
-        <button class="form-button" type="submit" [disabled]="!registerForm.valid">Let's go!</button>
+        <button class="form-button" type="submit">Let's go!</button>
     </div>
 </form>
