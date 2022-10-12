@@ -5,6 +5,12 @@
         alt="Classroom Baseball Logo">
     <button class="form-button" type="button" (click)="onLoginClick()">Log In</button>
     <button class="form-button" type="button" (click)="onRegisterClick()">Sign Up</button>
+    <button class="form-button" type="button" (click)="videoDisplay.scrollIntoView({ behavior: 'smooth' })">Learn More</button>
+</div>
+<div id="video-display" #videoDisplay>
+    <div class="video-container">
+        <iframe id="intro-video" src="https://www.youtube.com/embed/CtJENJbX5aE" allowfullscreen></iframe>
+    </div>
 </div>
 <app-modal (close)="onCloseModal()" *ngIf="modalContents" [title]="modalContents">
     <app-login *ngIf="modalContents === 'login'"></app-login>
