@@ -66,6 +66,7 @@ app-root {
 }
 
 .form-button, .summary-container {
+    color: var(--black);
     background-color: var(--secondary-dark);
     border-style: none;
     border-radius: 6px;
@@ -74,10 +75,12 @@ app-root {
 }
 
 .form-button:hover, .summary-container:hover {
+    color: var(--black);
     background-color: var(--secondary-extra-dark);
 }
 
 .form-button:disabled, .summary-container:disabled {
+    color: var(--black);
     background-color: var(--secondary-dark);
     cursor: default;
 }

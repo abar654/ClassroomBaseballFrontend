@@ -4,13 +4,15 @@
         src="/assets/images/cb-logo-blue.svg"
         alt="Classroom Baseball Logo">
     <button class="form-button" type="button" (click)="onLoginClick()">Log In</button>
-    <button class="form-button" type="button" (click)="onRegisterClick()">Sign Up</button>
     <button class="form-button" type="button" (click)="videoDisplay.scrollIntoView({ behavior: 'smooth' })">Learn More</button>
 </div>
 <div id="video-display" #videoDisplay>
+    <h1>Behaviour management tool for teachers</h1>
     <div class="video-container">
         <iframe id="intro-video" src="https://www.youtube.com/embed/CtJENJbX5aE" allowfullscreen></iframe>
     </div>
+    <button id="signup-button" class="form-button" type="button" (click)="onRegisterClick()">Sign Up</button>
+    <div class="footer">Copyright Kangaruu Studios 2022 - kangaruu.studiosATgmailDOTcom</div>
 </div>
 <app-modal (close)="onCloseModal()" *ngIf="modalContents" [title]="modalContents">
     <app-login *ngIf="modalContents === 'login'"></app-login>
